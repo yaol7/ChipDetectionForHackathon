@@ -11,6 +11,7 @@ public class PrometheusExampleJob {
   private final ParameterTool parameters;
 
   public static void main(String[] args) throws Exception {
+    log.info("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
     new PrometheusExampleJob(ParameterTool.fromArgs(args)).run();
   }
 

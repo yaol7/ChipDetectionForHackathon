@@ -23,6 +23,7 @@ dependencies {
     val flinkVersion = "1.14.2"
     compileOnly("org.apache.flink:flink-java:$flinkVersion")
     compileOnly("org.apache.flink:flink-streaming-java_2.11:$flinkVersion")
+    implementation("io.pravega:pravega-connectors-flink-1.11_2.12:0.10.1")
 
     val junitVersion = "5.8.2"
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junitVersion")

@@ -3,8 +3,11 @@ package com.github.mbode.flink_prometheus_example;
 import org.apache.flink.api.java.utils.ParameterTool;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.sink.DiscardingSink;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class PrometheusExampleJob {
+  private static final Logger log = LoggerFactory.getLogger(PrometheusExampleJob.class);
   private final ParameterTool parameters;
 
   public static void main(String[] args) throws Exception {
@@ -26,6 +29,10 @@ public class PrometheusExampleJob {
         .name(FlinkMetricsExposingMapFunction.class.getSimpleName())
         .addSink(new DiscardingSink<>())
         .name(DiscardingSink.class.getSimpleName());
+
+    log.info("start read metadata from Pravega stream of flink job.");
+    PravegaReadJob job = PravegaReadJob.getInstance();
+    job.readStream(env, parameters, "dataScope", "metaStream");
 
     env.execute(PrometheusExampleJob.class.getSimpleName());
   }

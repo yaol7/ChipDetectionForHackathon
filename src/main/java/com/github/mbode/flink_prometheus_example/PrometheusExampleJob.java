@@ -19,6 +19,7 @@ public class PrometheusExampleJob {
   }
 
   private void run() throws Exception {
+    /*log.info("metrics job is stating.");
     final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
     env.enableCheckpointing(500);
     env.disableOperatorChaining();
@@ -29,11 +30,12 @@ public class PrometheusExampleJob {
         .name(FlinkMetricsExposingMapFunction.class.getSimpleName())
         .addSink(new DiscardingSink<>())
         .name(DiscardingSink.class.getSimpleName());
+    env.execute(PrometheusExampleJob.class.getSimpleName());
+    log.info("metrics job is summitted!!!");*/
 
     log.info("start read metadata from Pravega stream of flink job.");
+    final StreamExecutionEnvironment newEnv = StreamExecutionEnvironment.getExecutionEnvironment();
     PravegaReadJob job = PravegaReadJob.getInstance();
-    job.readStream(env, parameters, "dataScope", "metaStream");
-
-    env.execute(PrometheusExampleJob.class.getSimpleName());
+    job.readStream(newEnv, parameters, "dataScope", "metaStream");
   }
 }

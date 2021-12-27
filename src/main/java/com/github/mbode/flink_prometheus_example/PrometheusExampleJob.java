@@ -28,7 +28,7 @@ public class PrometheusExampleJob {
     final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
     //env.enableCheckpointing(500);
     //env.disableOperatorChaining();
-
+    env.setParallelism(1);
     env.addSource(new RandomSourceFunction(parameters.getInt("elements", Integer.MAX_VALUE)))
         .name(RandomSourceFunction.class.getSimpleName())
         .map(new FlinkMetricsExposingMapFunction())

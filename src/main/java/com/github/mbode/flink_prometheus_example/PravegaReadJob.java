@@ -11,6 +11,7 @@ import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.net.URI;
 import java.util.Iterator;
 
 public class PravegaReadJob {
@@ -31,6 +32,7 @@ public class PravegaReadJob {
         log.info("start receiving data from scope: {}, stream: {}", scope, streamName);
         PravegaConfig pravegaConfig = PravegaConfig
                 .fromParams(params)
+                .withControllerURI(new URI("tcp://localhost:9090"))
                 .withDefaultScope(scope);
         FlinkPravegaReader<String> source = FlinkPravegaReader.<String>builder()
                 .withPravegaConfig(pravegaConfig)

@@ -11,7 +11,6 @@ public class PrometheusExampleJob {
   private final ParameterTool parameters;
 
   public static void main(String[] args) throws Exception {
-    log.info("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
     new PrometheusExampleJob(ParameterTool.fromArgs(args)).run();
   }
 
@@ -34,9 +33,9 @@ public class PrometheusExampleJob {
     env.execute(PrometheusExampleJob.class.getSimpleName());
     log.info("metrics job is summitted!!!");
 
-    /*log.info("start read metadata from Pravega stream of flink job.");
+    log.info("start read metadata from Pravega stream of flink job.");
     final StreamExecutionEnvironment newEnv = StreamExecutionEnvironment.getExecutionEnvironment();
     PravegaReadJob job = PravegaReadJob.getInstance();
-    job.readStream(newEnv, parameters, "dataScope", "metaStream");*/
+    job.readStream(newEnv, parameters, "dataScope", "metaStream");
   }
 }

@@ -5,6 +5,7 @@ services:
   job-cluster:
     build: .
     container_name: job-cluster
+    network_mode: "host"
     ports:
     - "8081:8081"
     - "9249:9249"
@@ -20,6 +21,7 @@ services:
   taskmanager1:
     build: .
     container_name: taskmanager1
+    network_mode: "host"
     ports:
     - "9250:9249"
     volumes:
@@ -34,6 +36,7 @@ services:
   taskmanager2:
     build: .
     container_name: taskmanager2
+    network_mode: "host"
     ports:
     - "9251:9249"
     volumes:

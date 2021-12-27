@@ -38,20 +38,7 @@ public class PrometheusExampleJob {
 
     log.info("start read metadata from Pravega stream of flink job.");
     PravegaReadJob job = PravegaReadJob.getInstance();
-    //job.readStream(env, parameters, "dataScope", "metaStream");*/
-    log.info("!!!!!!!!!!!!! my person test case...");
-    DataStream<PravegaReadJob.Person> flintstones = env.fromElements(
-            new PravegaReadJob.Person("Fred", 35),
-            new PravegaReadJob.Person("Wilma", 35),
-            new PravegaReadJob.Person("Pebbles", 2));
-
-    DataStream<PravegaReadJob.Person> adults = flintstones.filter((FilterFunction<PravegaReadJob.Person>) person -> person.age >= 18);
-    adults.print();
-    Iterator<PravegaReadJob.Person> it = DataStreamUtils.collect(adults);
-    while(it.hasNext()) {
-      PravegaReadJob.Person one = it.next();
-      log.info("------- person name: {}, age: {}", one.name, one.age);
-    }
+    job.readStream(env, parameters, "dataScope", "metaStream");
     env.execute(PrometheusExampleJob.class.getSimpleName());
     log.info("$$$$$$$$$$$$$ flink job is summited..");
   }

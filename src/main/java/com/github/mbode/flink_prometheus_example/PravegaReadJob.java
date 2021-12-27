@@ -6,9 +6,12 @@ import org.apache.flink.api.common.functions.FilterFunction;
 import org.apache.flink.api.common.serialization.SimpleStringSchema;
 import org.apache.flink.api.java.utils.ParameterTool;
 import org.apache.flink.streaming.api.datastream.DataStream;
+import org.apache.flink.streaming.api.datastream.DataStreamUtils;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Iterator;
 
 public class PravegaReadJob {
     private static final Logger log = LoggerFactory.getLogger(PravegaReadJob.class);
@@ -25,7 +28,7 @@ public class PravegaReadJob {
     }
 
     public void readStream(StreamExecutionEnvironment env, ParameterTool params, final String scope, final String streamName) throws Exception {
-        /*log.info("start receiving data from scope: {}, stream: {}", scope, streamName);
+        log.info("start receiving data from scope: {}, stream: {}", scope, streamName);
         PravegaConfig pravegaConfig = PravegaConfig
                 .fromParams(params)
                 .withDefaultScope(scope);
@@ -35,34 +38,10 @@ public class PravegaReadJob {
                 .withDeserializationSchema(new SimpleStringSchema())
                 .build();
         DataStream<String> dataStream = env.addSource(source).name("Pravega Stream Read Job");
-        dataStream.print();
-
-        env.execute("Pravega Stream Read Job");*/
-        log.info("!!!!!!!!!!!!! my person test case...");
-        DataStream<Person> flintstones = env.fromElements(
-                new Person("Fred", 35),
-                new Person("Wilma", 35),
-                new Person("Pebbles", 2));
-
-        DataStream<Person> adults = flintstones.filter((FilterFunction<Person>) person -> person.age >= 18);
-        adults.print();
-
-        env.execute();
-
-    }
-
-    public static class Person {
-        public String name;
-        public Integer age;
-        public Person() {}
-
-        public Person(String name, Integer age) {
-            this.name = name;
-            this.age = age;
-        }
-
-        public String toString() {
-            return this.name.toString() + ": $$$$$$$$$$$$$$$$$$ age " + this.age.toString();
+        //dataStream.print();
+        Iterator<String> res = DataStreamUtils.collect(dataStream);
+        while (res.hasNext()) {
+            log.info("############### res={}", res.next());
         }
     }
 }

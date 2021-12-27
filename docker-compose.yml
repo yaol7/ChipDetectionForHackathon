@@ -6,9 +6,6 @@ services:
     build: .
     container_name: job-cluster
     network_mode: "host"
-    ports:
-    - "8081:8081"
-    - "9249:9249"
     volumes:
     - state:/state
     command: standalone-job --job-classname com.github.mbode.flink_prometheus_example.PrometheusExampleJob --job-id 00000000000000000000000000000000
@@ -22,8 +19,6 @@ services:
     build: .
     container_name: taskmanager1
     network_mode: "host"
-    ports:
-    - "9250:9249"
     volumes:
     - state:/state
     command: taskmanager
@@ -37,8 +32,6 @@ services:
     build: .
     container_name: taskmanager2
     network_mode: "host"
-    ports:
-    - "9251:9249"
     volumes:
     - state:/state
     command: taskmanager

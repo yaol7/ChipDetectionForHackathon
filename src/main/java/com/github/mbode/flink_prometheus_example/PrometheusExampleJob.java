@@ -38,7 +38,7 @@ public class PrometheusExampleJob {
 
     log.info("start read metadata from Pravega stream of flink job.");
     PravegaReadJob job = PravegaReadJob.getInstance();
-    job.readStream(env, parameters, "dataScope", "metaStream");
+    job.readStream(env, parameters, "dataScope1", "metaStream1");
     env.execute(PrometheusExampleJob.class.getSimpleName());
     log.info("$$$$$$$$$$$$$ flink job is summited..");
   }

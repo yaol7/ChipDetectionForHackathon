@@ -1,6 +1,8 @@
 package com.github.mbode.flink_prometheus_example;
 
+import org.apache.flink.api.common.functions.FilterFunction;
 import org.apache.flink.api.java.utils.ParameterTool;
+import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.sink.DiscardingSink;
 import org.slf4j.Logger;
@@ -36,6 +38,17 @@ public class PrometheusExampleJob {
     log.info("start read metadata from Pravega stream of flink job.");
     //final StreamExecutionEnvironment newEnv = StreamExecutionEnvironment.getExecutionEnvironment();
     PravegaReadJob job = PravegaReadJob.getInstance();
-    job.readStream(env, parameters, "dataScope", "metaStream");
+    //job.readStream(env, parameters, "dataScope", "metaStream");
+    log.info("!!!!!!!!!!!!! my person test case...");
+    DataStream<PravegaReadJob.Person> flintstones = env.fromElements(
+            new PravegaReadJob.Person("Fred", 35),
+            new PravegaReadJob.Person("Wilma", 35),
+            new PravegaReadJob.Person("Pebbles", 2));
+
+    DataStream<PravegaReadJob.Person> adults = flintstones.filter((FilterFunction<PravegaReadJob.Person>) person -> person.age >= 18);
+    adults.print();
+
+    env.execute(PrometheusExampleJob.class.getSimpleName());
+    log.info("$$$$$$$$$$$$$ flink job is summited..");
   }
 }

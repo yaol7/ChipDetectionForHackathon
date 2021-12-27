@@ -23,7 +23,7 @@ public class PrometheusExampleJob {
   private void run() throws Exception {
     log.info("metrics job is stating.");
     final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
-    env.enableCheckpointing(500);
+    /*env.enableCheckpointing(500);
     env.disableOperatorChaining();
 
     env.addSource(new RandomSourceFunction(parameters.getInt("elements", Integer.MAX_VALUE)))
@@ -38,7 +38,7 @@ public class PrometheusExampleJob {
     log.info("start read metadata from Pravega stream of flink job.");
     //final StreamExecutionEnvironment newEnv = StreamExecutionEnvironment.getExecutionEnvironment();
     PravegaReadJob job = PravegaReadJob.getInstance();
-    //job.readStream(env, parameters, "dataScope", "metaStream");
+    //job.readStream(env, parameters, "dataScope", "metaStream");*/
     log.info("!!!!!!!!!!!!! my person test case...");
     DataStream<PravegaReadJob.Person> flintstones = env.fromElements(
             new PravegaReadJob.Person("Fred", 35),

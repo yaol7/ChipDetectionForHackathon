@@ -18,8 +18,6 @@ services:
   taskmanager1:
     build: .
     container_name: taskmanager1
-    ports:
-    - "9250:9249"
     volumes:
     - state:/state
     command: taskmanager
@@ -32,8 +30,6 @@ services:
   taskmanager2:
     build: .
     container_name: taskmanager2
-    ports:
-    - "9251:9249"
     volumes:
     - state:/state
     command: taskmanager

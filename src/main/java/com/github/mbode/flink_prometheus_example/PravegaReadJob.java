@@ -2,20 +2,23 @@ package com.github.mbode.flink_prometheus_example;
 
 import io.pravega.connectors.flink.FlinkPravegaReader;
 import io.pravega.connectors.flink.PravegaConfig;
-import org.apache.flink.api.common.functions.FilterFunction;
+import io.pravega.shaded.com.google.gson.Gson;
+import io.pravega.shaded.com.google.gson.GsonBuilder;
 import org.apache.flink.api.common.serialization.SimpleStringSchema;
 import org.apache.flink.api.java.utils.ParameterTool;
 import org.apache.flink.streaming.api.datastream.DataStream;
-import org.apache.flink.streaming.api.datastream.DataStreamUtils;
+import org.apache.flink.streaming.api.datastream.DataStreamSink;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
+import org.apache.flink.streaming.api.functions.sink.DiscardingSink;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.URI;
-import java.util.Iterator;
+import java.util.Objects;
 
 public class PravegaReadJob {
     private static final Logger log = LoggerFactory.getLogger(PravegaReadJob.class);
+    private static final Gson GSON = new GsonBuilder().serializeSpecialFloatingPointValues().create();
 
     private PravegaReadJob() {
     }
@@ -39,11 +42,18 @@ public class PravegaReadJob {
                 .forStream(streamName)
                 .withDeserializationSchema(new SimpleStringSchema())
                 .build();
-        DataStream<String> dataStream = env.addSource(source).name("Pravega Stream Read Job");
-        //dataStream.print();
-        Iterator<String> res = DataStreamUtils.collect(dataStream);
-        while (res.hasNext()) {
-            log.info("############### res={}", res.next());
-        }
+        /*env.addSource(source)
+                .name(FlinkPravegaReader.class.getSimpleName())
+                .map(json -> GSON.fromJson(json, ChipMetadata.class))
+                .filter(x -> x.getAbc().endsWith("ddd"))
+                .addSink(new DiscardingSink<>())
+                .name(DiscardingSink.class.getSimpleName());*/
+        DataStream<String> dataStream = env.addSource(source)
+                .name(FlinkPravegaReader.class.getSimpleName())
+                .filter(Objects::nonNull)
+                .name("filter not null");
+        dataStream.print();
+        log.info("!!!!!!!!!!!!!!! pravega stream is done!!!!!");
+        env.execute(PrometheusExampleJob.class.getSimpleName());
     }
 }

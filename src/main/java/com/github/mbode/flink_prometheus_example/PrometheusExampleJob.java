@@ -28,7 +28,7 @@ public class PrometheusExampleJob {
     final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
     //env.enableCheckpointing(500);
     //env.disableOperatorChaining();
-    env.setParallelism(1);
+    //env.setParallelism(1);
     env.addSource(new RandomSourceFunction(parameters.getInt("elements", Integer.MAX_VALUE)))
         .name(RandomSourceFunction.class.getSimpleName())
         .map(new FlinkMetricsExposingMapFunction())
@@ -39,7 +39,7 @@ public class PrometheusExampleJob {
     log.info("start read metadata from Pravega stream of flink job.");
     PravegaReadJob job = PravegaReadJob.getInstance();
     job.readStream(env, parameters, "dataScope", "metaStream");
-    env.execute(PrometheusExampleJob.class.getSimpleName());
+
     log.info("$$$$$$$$$$$$$ flink job is summited..");
   }
 }

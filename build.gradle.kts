@@ -20,7 +20,7 @@ repositories { mavenCentral() }
 testSets { create("integrationTest") }
 
 dependencies {
-    val flinkVersion = "1.14.2"
+    val flinkVersion = "1.11.6"
     compileOnly("org.apache.flink:flink-java:$flinkVersion")
     compileOnly("org.apache.flink:flink-streaming-java_2.11:$flinkVersion")
     implementation("io.pravega:pravega-connectors-flink-1.11_2.12:0.10.1")

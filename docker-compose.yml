@@ -18,6 +18,7 @@ services:
   taskmanager1:
     build: .
     container_name: taskmanager1
+    network_mode: "host"
     volumes:
     - state:/state
     command: taskmanager
@@ -30,6 +31,7 @@ services:
   taskmanager2:
     build: .
     container_name: taskmanager2
+    network_mode: "host"
     volumes:
     - state:/state
     command: taskmanager

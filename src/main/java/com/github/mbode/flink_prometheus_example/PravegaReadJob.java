@@ -8,12 +8,14 @@ import org.apache.flink.api.common.serialization.SimpleStringSchema;
 import org.apache.flink.api.java.utils.ParameterTool;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.datastream.DataStreamSink;
+import org.apache.flink.streaming.api.datastream.DataStreamUtils;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.sink.DiscardingSink;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.URI;
+import java.util.Iterator;
 import java.util.Objects;
 
 public class PravegaReadJob {
@@ -46,7 +48,11 @@ public class PravegaReadJob {
                 .name(FlinkPravegaReader.class.getSimpleName())
                 .filter(Objects::nonNull)
                 .name("filter not null");
-        dataStream.print();
+        //dataStream.print();
+        Iterator<String> it = DataStreamUtils.collect(dataStream);
+        while (it.hasNext()) {
+            log.info("######## value: {}", it.next());
+        }
         log.info("!!!!!!!!!!!!!!! pravega stream is done!!!!!");
         env.execute(PrometheusExampleJob.class.getSimpleName());
     }

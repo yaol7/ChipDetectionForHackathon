@@ -6,6 +6,7 @@ import io.pravega.shaded.com.google.gson.Gson;
 import io.pravega.shaded.com.google.gson.GsonBuilder;
 import org.apache.flink.api.common.serialization.SimpleStringSchema;
 import org.apache.flink.api.java.utils.ParameterTool;
+import org.apache.flink.core.fs.FileSystem;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.datastream.DataStreamSink;
 import org.apache.flink.streaming.api.datastream.DataStreamUtils;
@@ -49,10 +50,7 @@ public class PravegaReadJob {
                 .filter(Objects::nonNull)
                 .name("filter not null");
         //dataStream.print();
-        Iterator<String> it = DataStreamUtils.collect(dataStream);
-        while (it.hasNext()) {
-            log.info("######## value: {}", it.next());
-        }
+        dataStream.writeAsText("file:///tmp/out", FileSystem.WriteMode.OVERWRITE);
         log.info("!!!!!!!!!!!!!!! pravega stream is done!!!!!");
         env.execute(PrometheusExampleJob.class.getSimpleName());
     }

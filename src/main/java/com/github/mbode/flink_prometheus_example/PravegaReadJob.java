@@ -55,3 +55,24 @@ public class PravegaReadJob {
         env.execute(PrometheusExampleJob.class.getSimpleName());
     }
 }
+
+/**
+ *
+ * DataStream<Integer> ss = env.addSource(source)
+ *                 .name(FlinkPravegaReader.class.getSimpleName())
+ *                 .map(json -> GSON.fromJson(json, JsonObject.class))
+ *                 .keyBy(obj -> obj.get("host").getAsString())
+ *                 .window(TumblingEventTimeWindows.of(Time.seconds(1)))
+ *                 .sum("defectsLen");
+ *
+ *  String json1 = "{'@timestamp':'2021-12-28T07:16:06.928Z','channels':3,'encoding_level':95," +
+ * 				"'topic':'camera1_stream_results\u0000','frame_number':19820," +
+ * 				"'width':1920,'defectsLen':4,'height':1200,'encoding_type':'jpeg','img_handle':'0a680167c8','@version':'1'," +
+ * 				"'defects':[{'br':[681,185],'type':0,'tl':[634,140]},{'br':[735,595],'type':0,'tl':[713,555]},{'br':[1271,239]," +
+ * 				"'type':0,'tl':[1211,199]},{'br':[673,540],'type':1,'tl':[638,500]}],'host':'jinggjing-VirtualBox'}";
+ * 		//String json = "{ \"name\": \"Baeldung\", \"java\": true }";
+ * 		JsonObject obj = new Gson().fromJson(json1, JsonObject.class);
+ * 		int aa = obj.get("defectsLen").getAsInt();
+ * 		String abc = obj.get("host").getAsString();
+ * 		System.out.print("len = " + aa );
+ * */

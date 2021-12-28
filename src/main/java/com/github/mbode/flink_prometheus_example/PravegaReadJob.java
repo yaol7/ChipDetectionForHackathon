@@ -42,12 +42,6 @@ public class PravegaReadJob {
                 .forStream(streamName)
                 .withDeserializationSchema(new SimpleStringSchema())
                 .build();
-        /*env.addSource(source)
-                .name(FlinkPravegaReader.class.getSimpleName())
-                .map(json -> GSON.fromJson(json, ChipMetadata.class))
-                .filter(x -> x.getAbc().endsWith("ddd"))
-                .addSink(new DiscardingSink<>())
-                .name(DiscardingSink.class.getSimpleName());*/
         DataStream<String> dataStream = env.addSource(source)
                 .name(FlinkPravegaReader.class.getSimpleName())
                 .filter(Objects::nonNull)

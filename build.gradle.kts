@@ -24,6 +24,7 @@ dependencies {
     compileOnly("org.apache.flink:flink-java:$flinkVersion")
     compileOnly("org.apache.flink:flink-streaming-java_2.11:$flinkVersion")
     implementation("io.pravega:pravega-connectors-flink-1.11_2.12:0.10.1")
+    implementation("org.apache.flink:flink-connector-elasticsearch_2.12:1.8.3")
 
     val junitVersion = "5.8.2"
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junitVersion")

@@ -5,40 +5,47 @@ services:
   job-cluster:
     build: .
     container_name: job-cluster
-    network_mode: "host"
+    ports:
+    - "8081:8081"
+    - "9249:9249"
+    #network_mode: "host"
     volumes:
     - state:/state
     command: standalone-job --job-classname com.github.mbode.flink_prometheus_example.PrometheusExampleJob --job-id 00000000000000000000000000000000
     environment:
     - |
       FLINK_PROPERTIES=
-      jobmanager.rpc.address: localhost
+      jobmanager.rpc.address: job-cluster
       state.checkpoints.dir: file:///state
 
   taskmanager1:
     build: .
     container_name: taskmanager1
-    network_mode: "host"
+    ports:
+    - "9250:9249"
+    #network_mode: "host"
     volumes:
     - state:/state
     command: taskmanager
     environment:
     - |
       FLINK_PROPERTIES=
-      jobmanager.rpc.address: localhost
+      jobmanager.rpc.address: job-cluster
       state.checkpoints.dir: file:///state
 
   taskmanager2:
     build: .
     container_name: taskmanager2
-    network_mode: "host"
+    ports:
+    - "9251:9249"
+    #network_mode: "host"
     volumes:
     - state:/state
     command: taskmanager
     environment:
     - |
       FLINK_PROPERTIES=
-      jobmanager.rpc.address: localhost
+      jobmanager.rpc.address: job-cluster
       state.checkpoints.dir: file:///state
 
   prometheus:

@@ -38,7 +38,7 @@ public class PravegaReadJob {
         log.info("start receiving data from scope: {}, stream: {}", scope, streamName);
         PravegaConfig pravegaConfig = PravegaConfig
                 .fromParams(params)
-                .withControllerURI(new URI("tcp://localhost:9090"))
+                .withControllerURI(new URI("tcp://172.31.0.1:9090"))
                 .withDefaultScope(scope);
         FlinkPravegaReader<String> source = FlinkPravegaReader.<String>builder()
                 .withPravegaConfig(pravegaConfig)

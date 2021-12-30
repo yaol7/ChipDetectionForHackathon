@@ -56,7 +56,7 @@ public class ChipMetadataPravegaReadTask {
                 .filter(jx -> !Strings.isNullOrEmpty(jx))
                 .map(json -> GSON.fromJson(json.trim(), ChipMetadata.class))
                 .filter(Objects::nonNull)
-                /*.assignTimestampsAndWatermarks(new BoundedOutOfOrdernessTimestampExtractor<ChipMetadata>(Time.milliseconds(50)) {
+                .assignTimestampsAndWatermarks(new BoundedOutOfOrdernessTimestampExtractor<ChipMetadata>(Time.milliseconds(50)) {
                     @Override
                     public long extractTimestamp(ChipMetadata chipMetadata) {
                         return chipMetadata.getTimestamp().getTime();
@@ -64,7 +64,7 @@ public class ChipMetadataPravegaReadTask {
                 })
                 .keyBy(obj -> obj.getHost())
                 .window(TumblingEventTimeWindows.of(Time.seconds(5)))
-                .sum("defectsLen")*/
+                .sum("defectsLen")
                 .map(chip -> new ChipMetadataMetricsExposingMapFunction())
                 .name(ChipMetadataMetricsExposingMapFunction.class.getSimpleName())
                 //.writeAsText("file:///tmp/out", FileSystem.WriteMode.OVERWRITE);

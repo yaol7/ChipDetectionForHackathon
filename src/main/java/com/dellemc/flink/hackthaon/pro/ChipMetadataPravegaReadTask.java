@@ -47,10 +47,6 @@ public class ChipMetadataPravegaReadTask {
                 .forStream(streamName)
                 .withDeserializationSchema(new SimpleStringSchema())
                 .build();
-        /*DataStream<String> dataStream = env.addSource(source)
-                .name(FlinkPravegaReader.class.getSimpleName())
-                .filter(Objects::nonNull)
-                .name("filter not null");*/
         env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime);
         env.addSource(source)
                 .filter(jx -> !Strings.isNullOrEmpty(jx))
@@ -65,7 +61,7 @@ public class ChipMetadataPravegaReadTask {
                 .keyBy(obj -> obj.getHost())
                 .window(TumblingEventTimeWindows.of(Time.seconds(5)))
                 .sum("defectsLen")
-                .map(chip -> new ChipMetadataMetricsExposingMapFunction())
+                .map(new ChipMetadataMetricsExposingMapFunction())
                 .name(ChipMetadataMetricsExposingMapFunction.class.getSimpleName())
                 //.writeAsText("file:///tmp/out", FileSystem.WriteMode.OVERWRITE);
                 .addSink(new DiscardingSink<>())

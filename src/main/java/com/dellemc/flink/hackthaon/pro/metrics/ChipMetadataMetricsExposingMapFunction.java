@@ -13,7 +13,7 @@ public class ChipMetadataMetricsExposingMapFunction extends RichMapFunction<Chip
 
     @Override
     public void open(Configuration parameters) {
-        eventCounter = getRuntimeContext().getMetricGroup().counter("receive_events");
+        eventCounter = getRuntimeContext().getMetricGroup().counter("ttevents");
         //defectsLenGauge = getRuntimeContext().getMetricGroup().gauge("defects_len", new DefectsLenGauge(chipMetadata));
     }
 

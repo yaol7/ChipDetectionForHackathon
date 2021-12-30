@@ -10,6 +10,7 @@ import org.apache.flink.api.java.utils.ParameterTool;
 import org.apache.flink.core.fs.FileSystem;
 import org.apache.flink.streaming.api.TimeCharacteristic;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
+import org.apache.flink.streaming.api.functions.sink.DiscardingSink;
 import org.apache.flink.streaming.api.functions.timestamps.BoundedOutOfOrdernessTimestampExtractor;
 import org.apache.flink.streaming.api.windowing.assigners.TumblingEventTimeWindows;
 import org.apache.flink.streaming.api.windowing.time.Time;
@@ -55,7 +56,7 @@ public class ChipMetadataPravegaReadTask {
                 .filter(jx -> !Strings.isNullOrEmpty(jx))
                 .map(json -> GSON.fromJson(json.trim(), ChipMetadata.class))
                 .filter(Objects::nonNull)
-                .assignTimestampsAndWatermarks(new BoundedOutOfOrdernessTimestampExtractor<ChipMetadata>(Time.milliseconds(50)) {
+                /*.assignTimestampsAndWatermarks(new BoundedOutOfOrdernessTimestampExtractor<ChipMetadata>(Time.milliseconds(50)) {
                     @Override
                     public long extractTimestamp(ChipMetadata chipMetadata) {
                         return chipMetadata.getTimestamp().getTime();
@@ -63,10 +64,11 @@ public class ChipMetadataPravegaReadTask {
                 })
                 .keyBy(obj -> obj.getHost())
                 .window(TumblingEventTimeWindows.of(Time.seconds(5)))
-                .sum("defectsLen")
+                .sum("defectsLen")*/
                 .map(chip -> new ChipMetadataMetricsExposingMapFunction())
                 .name(ChipMetadataMetricsExposingMapFunction.class.getSimpleName())
-                //.print("------------------------------ output!!!!!");
-                .writeAsText("file:///tmp/out", FileSystem.WriteMode.OVERWRITE);
+                //.writeAsText("file:///tmp/out", FileSystem.WriteMode.OVERWRITE);
+                .addSink(new DiscardingSink<>())
+                .name(DiscardingSink.class.getSimpleName());
     }
 }

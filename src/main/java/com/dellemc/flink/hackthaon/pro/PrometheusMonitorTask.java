@@ -1,5 +1,6 @@
 package com.dellemc.flink.hackthaon.pro;
 
+import com.dellemc.flink.hackthaon.pro.metrics.FlinkMetricsExposingMapFunction;
 import org.apache.flink.api.java.utils.ParameterTool;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.sink.DiscardingSink;

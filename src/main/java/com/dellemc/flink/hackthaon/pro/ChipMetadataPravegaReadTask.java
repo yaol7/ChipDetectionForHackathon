@@ -1,5 +1,6 @@
 package com.dellemc.flink.hackthaon.pro;
 
+import com.dellemc.flink.hackthaon.pro.metrics.ChipMetadataMetricsExposingMapFunction;
 import io.pravega.connectors.flink.FlinkPravegaReader;
 import io.pravega.connectors.flink.PravegaConfig;
 import io.pravega.shaded.com.google.gson.Gson;
@@ -63,6 +64,8 @@ public class ChipMetadataPravegaReadTask {
                 .keyBy(obj -> obj.getHost())
                 .window(TumblingEventTimeWindows.of(Time.seconds(5)))
                 .sum("defectsLen")
+                .map(chip -> new ChipMetadataMetricsExposingMapFunction())
+                .name(ChipMetadataMetricsExposingMapFunction.class.getSimpleName())
                 //.print("------------------------------ output!!!!!");
                 .writeAsText("file:///tmp/out", FileSystem.WriteMode.OVERWRITE);
     }

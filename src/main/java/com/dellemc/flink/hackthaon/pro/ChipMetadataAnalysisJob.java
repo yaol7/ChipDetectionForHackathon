@@ -24,8 +24,8 @@ public class ChipMetadataAnalysisJob {
         //env.setParallelism(1);
 
         //monitor services
-        PrometheusMonitorTask prometheusMonitorTask = PrometheusMonitorTask.getInstance();
-        prometheusMonitorTask.run(env, parameters);
+        //PrometheusMonitorTask prometheusMonitorTask = PrometheusMonitorTask.getInstance();
+        //prometheusMonitorTask.run(env, parameters);
 
         //chipMetadata process
         ChipMetadataPravegaReadTask chipMetadataPravegaReadTask = ChipMetadataPravegaReadTask.getInstance();

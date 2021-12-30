@@ -411,7 +411,7 @@
       },
       "id": 25,
       "panels": [],
-      "title": "PrometheusExampleJob",
+      "title": "ChipMetadataAnalysisJob",
       "type": "row"
     },
     {
@@ -621,7 +621,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "flink_taskmanager_job_task_numBytesInLocalPerSecond{job_name=\"PrometheusExampleJob\"}",
+          "expr": "flink_taskmanager_job_task_numBytesInLocalPerSecond{job_name=\"ChipMetadataAnalysisJob\"}",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -706,7 +706,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "flink_taskmanager_job_task_numBytesOutPerSecond{job_name=\"PrometheusExampleJob\"}",
+          "expr": "flink_taskmanager_job_task_numBytesOutPerSecond{job_name=\"ChipMetadataAnalysisJob\"}",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -812,8 +812,8 @@
       "scopedVars": {
         "job": {
           "selected": false,
-          "text": "PrometheusExampleJob",
-          "value": "PrometheusExampleJob"
+          "text": "ChipMetadataAnalysisJob",
+          "value": "ChipMetadataAnalysisJob"
         }
       },
       "sparkline": {

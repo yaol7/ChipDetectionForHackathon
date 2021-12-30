@@ -11,7 +11,7 @@ services:
     #network_mode: "host"
     volumes:
     - state:/state
-    command: standalone-job --job-classname com.github.mbode.flink_prometheus_example.PrometheusExampleJob --job-id 00000000000000000000000000000000
+    command: standalone-job --job-classname com.dellemc.flink.hackthaon.pro.ChipMetadataAnalysisJob --job-id 00000000000000000000000000000000
     environment:
     - |
       FLINK_PROPERTIES=

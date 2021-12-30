@@ -1,4 +1,4 @@
-package com.github.mbode.flink_prometheus_example;
+package com.dellemc.flink.hackthaon.pro;
 
 import java.util.concurrent.ThreadLocalRandom;
 import org.apache.flink.streaming.api.functions.source.SourceFunction;

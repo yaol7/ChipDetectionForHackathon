@@ -1,4 +1,4 @@
-package com.github.mbode.flink_prometheus_example;
+package com.dellemc.flink.hackthaon.pro;
 
 import org.apache.flink.api.common.functions.RichMapFunction;
 import org.apache.flink.configuration.Configuration;

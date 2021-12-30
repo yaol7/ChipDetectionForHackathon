@@ -8,7 +8,7 @@ import org.apache.flink.metrics.Gauge;
 import org.apache.flink.metrics.Histogram;
 import org.apache.flink.runtime.metrics.DescriptiveStatisticsHistogram;
 
-public class ChipMetadataMetricsExposingMapFunction extends RichMapFunction<ChipMetadata, ChipMetadata> {
+public class ChipMetadataMetricsExposingMapFunction extends RichMapFunction<ChipMetadata, Integer> {
     private Counter eventCounter;
     private transient Histogram valueHistogram;
     private Gauge defectsLenGauge;
@@ -24,12 +24,12 @@ public class ChipMetadataMetricsExposingMapFunction extends RichMapFunction<Chip
     }
 
     @Override
-    public ChipMetadata map(ChipMetadata chipMetadata) throws Exception {
+    public Integer map(ChipMetadata chipMetadata) throws Exception {
         eventCounter.inc();
         valueHistogram.update(chipMetadata.getHeight());
         this.chipMetadata = chipMetadata;
 
-        return chipMetadata;
+        return chipMetadata.getDefectsLen();
     }
 
     public static class DefectsLenGauge implements Gauge<Integer> {

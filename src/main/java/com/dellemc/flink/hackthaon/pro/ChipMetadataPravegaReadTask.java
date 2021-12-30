@@ -12,10 +12,12 @@ import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.timestamps.BoundedOutOfOrdernessTimestampExtractor;
 import org.apache.flink.streaming.api.windowing.assigners.TumblingEventTimeWindows;
 import org.apache.flink.streaming.api.windowing.time.Time;
+import org.elasticsearch.common.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.URI;
+import java.util.Objects;
 
 public class ChipMetadataPravegaReadTask {
     private static final Logger log = LoggerFactory.getLogger(ChipMetadataPravegaReadTask.class);
@@ -32,7 +34,7 @@ public class ChipMetadataPravegaReadTask {
         return ChipMetadataPravegaReadTask.Singleton.INSTANCE;
     }
 
-    public void  run(StreamExecutionEnvironment env, ParameterTool params, final String scope, final String streamName) throws Exception {
+    public void run(StreamExecutionEnvironment env, ParameterTool params, final String scope, final String streamName) throws Exception {
         log.info("start receiving data from scope: {}, stream: {}", scope, streamName);
         PravegaConfig pravegaConfig = PravegaConfig
                 .fromParams(params)
@@ -49,7 +51,9 @@ public class ChipMetadataPravegaReadTask {
                 .name("filter not null");*/
         env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime);
         env.addSource(source)
+                .filter(jx -> !Strings.isNullOrEmpty(jx))
                 .map(json -> GSON.fromJson(json.trim(), ChipMetadata.class))
+                .filter(Objects::nonNull)
                 .assignTimestampsAndWatermarks(new BoundedOutOfOrdernessTimestampExtractor<ChipMetadata>(Time.milliseconds(50)) {
                     @Override
                     public long extractTimestamp(ChipMetadata chipMetadata) {

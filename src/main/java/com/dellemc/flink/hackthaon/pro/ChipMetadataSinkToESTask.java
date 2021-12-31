@@ -56,6 +56,10 @@ public class ChipMetadataSinkToESTask {
         httpHosts.add(new HttpHost("es02", 9200, "http"));
         httpHosts.add(new HttpHost("es03", 9200, "http"));
 
+        /**
+         * sample data
+         * {'encoding_level': 95, 'version': '1', 'img_handle': '0f757a7812', 'topic': 'chipresults', 'width': 1920, 'height': 1200, 'encoding_type': 'jpeg', 'defects': [{'type': '0', 'tl': [1457, 291], 'br': [1500, 339]}, {'type': '0', 'tl': [111, 206], 'br': [169, 247]}, {'type': '1', 'tl': [841, 35], 'br': [894, 66]}], 'defectsLen': 3, 'frame_number': 0, 'timestamp': '2021-12-31T09:49:02.799Z', 'factory': 'shanghai', 'production_line': '1', 'location': [121.25150018654568, 31.360173390813358]}
+         * */
         ElasticsearchSink.Builder<String> esSinkBuilder = new ElasticsearchSink.Builder<>(
                 httpHosts,
                 new ElasticsearchSinkFunction<String>() {

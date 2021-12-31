@@ -29,7 +29,7 @@ public class ChipMetadataAnalysisJob {
 
         //chipMetadata process
         ChipMetadataPravegaReadTask chipMetadataPravegaReadTask = ChipMetadataPravegaReadTask.getInstance();
-        chipMetadataPravegaReadTask.run(env, parameters, "dataScope", "metaStream");
+        chipMetadataPravegaReadTask.run(env, parameters, "chipdetect", "chipresults");
 
         //sink chip metadata to ES in cloud.
         //ChipMetadataSinkToESTask chipMetadataSinkToESTask = ChipMetadataSinkToESTask.getInstance();

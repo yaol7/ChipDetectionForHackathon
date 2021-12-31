@@ -32,8 +32,8 @@ public class ChipMetadataAnalysisJob {
         chipMetadataPravegaReadTask.run(env, parameters, "chipdetect", "chipresults");
 
         //sink chip metadata to ES in cloud.
-        //ChipMetadataSinkToESTask chipMetadataSinkToESTask = ChipMetadataSinkToESTask.getInstance();
-        //chipMetadataSinkToESTask.run(env, parameters, "dataScope", "metaStream");
+        ChipMetadataSinkToESTask chipMetadataSinkToESTask = ChipMetadataSinkToESTask.getInstance();
+        chipMetadataSinkToESTask.run(env, parameters, "chipdetect", "chipresults");
 
         env.execute(ChipMetadataAnalysisJob.class.getSimpleName());
         log.info("all the tasks is summit!");

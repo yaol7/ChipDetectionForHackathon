@@ -4,28 +4,35 @@ import com.dellemc.flink.hackthaon.pro.ChipMetadata;
 import org.apache.flink.api.common.functions.RichMapFunction;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.metrics.Counter;
+import org.apache.flink.metrics.Gauge;
 import org.apache.flink.metrics.Histogram;
 import org.apache.flink.runtime.metrics.DescriptiveStatisticsHistogram;
 
 public class FlinkMetricsExposingMapFunction extends RichMapFunction<ChipMetadata, Integer> {
-  private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-  private transient Counter eventCounter;
-  private transient Histogram defectesHistogram;
+    private transient Counter eventCounter;
+    private transient Histogram defectesHistogram;
+    private transient int defectsLen;
 
-  @Override
-  public void open(Configuration parameters) {
-    eventCounter = getRuntimeContext().getMetricGroup().counter("events");
-    defectesHistogram =
+    @Override
+    public void open(Configuration parameters) {
+        eventCounter = getRuntimeContext().getMetricGroup().counter("events");
+        defectesHistogram =
+                getRuntimeContext()
+                        .getMetricGroup()
+                        .histogram("defects_len", new DescriptiveStatisticsHistogram(10_000));
         getRuntimeContext()
-            .getMetricGroup()
-            .histogram("defects_len", new DescriptiveStatisticsHistogram(10_000));
-  }
+                .getMetricGroup()
+                .gauge("myGauge", (Gauge<Integer>) () -> defectsLen);
+    }
 
-  @Override
-  public Integer map(ChipMetadata value) {
-    eventCounter.inc();
-    defectesHistogram.update(value.getDefectsLen());
-    return value.getDefectsLen();
-  }
+    @Override
+    public Integer map(ChipMetadata chipMetadata) {
+        eventCounter.inc();
+        defectesHistogram.update(chipMetadata.getDefectsLen());
+        this.defectsLen = chipMetadata.getDefectsLen();
+
+        return chipMetadata.getDefectsLen();
+    }
 }

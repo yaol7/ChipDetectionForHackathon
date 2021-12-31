@@ -11,21 +11,21 @@ public class FlinkMetricsExposingMapFunction extends RichMapFunction<ChipMetadat
   private static final long serialVersionUID = 1L;
 
   private transient Counter eventCounter;
-  private transient Histogram valueHistogram;
+  private transient Histogram defectesHistogram;
 
   @Override
   public void open(Configuration parameters) {
     eventCounter = getRuntimeContext().getMetricGroup().counter("events");
-    valueHistogram =
+    defectesHistogram =
         getRuntimeContext()
             .getMetricGroup()
-            .histogram("value_histogram", new DescriptiveStatisticsHistogram(10_000));
+            .histogram("defects_len", new DescriptiveStatisticsHistogram(10_000));
   }
 
   @Override
   public Integer map(ChipMetadata value) {
     eventCounter.inc();
-    valueHistogram.update(value.getDefectsLen());
+    defectesHistogram.update(value.getDefectsLen());
     return value.getDefectsLen();
   }
 }

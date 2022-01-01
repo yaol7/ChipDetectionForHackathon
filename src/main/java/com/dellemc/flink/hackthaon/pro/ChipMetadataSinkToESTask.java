@@ -53,9 +53,7 @@ public class ChipMetadataSinkToESTask {
                 .build();
 
         List<HttpHost> httpHosts = new ArrayList<>();
-        httpHosts.add(new HttpHost("es01", 9200, "http"));
-        httpHosts.add(new HttpHost("es02", 9200, "http"));
-        httpHosts.add(new HttpHost("es03", 9200, "http"));
+        httpHosts.add(new HttpHost("172.17.0.1", 9200, "http"));
 
         /**
          * sample data

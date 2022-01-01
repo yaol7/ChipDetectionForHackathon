@@ -5,6 +5,7 @@ import io.pravega.connectors.flink.PravegaConfig;
 import org.apache.flink.api.common.functions.RuntimeContext;
 import org.apache.flink.api.common.serialization.SimpleStringSchema;
 import org.apache.flink.api.java.utils.ParameterTool;
+import org.apache.flink.core.fs.FileSystem;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.connectors.elasticsearch.ActionRequestFailureHandler;
 import org.apache.flink.streaming.connectors.elasticsearch.ElasticsearchSinkFunction;
@@ -59,25 +60,6 @@ public class ChipMetadataSinkToESTask {
          * sample data
          * {'encoding_level': 95, 'version': '1', 'img_handle': '0f757a7812', 'topic': 'chipresults', 'width': 1920, 'height': 1200, 'encoding_type': 'jpeg', 'defects': [{'type': '0', 'tl': [1457, 291], 'br': [1500, 339]}, {'type': '0', 'tl': [111, 206], 'br': [169, 247]}, {'type': '1', 'tl': [841, 35], 'br': [894, 66]}], 'defectsLen': 3, 'frame_number': 0, 'timestamp': '2021-12-31T09:49:02.799Z', 'factory': 'shanghai', 'production_line': '1', 'location': [121.25150018654568, 31.360173390813358]}
          * */
-        /*ElasticsearchSink.Builder<String> esSinkBuilder = new ElasticsearchSink.Builder<>(
-                httpHosts,
-                new ElasticsearchSinkFunction<String>() {
-                    public IndexRequest createIndexRequest(String element) {
-                        Map<String, String> json = new HashMap<>();
-                        json.put("data", element);
-
-                        return Requests.indexRequest()
-                                .index("my-index")
-                                .type("_doc")
-                                .source(json);
-                    }
-
-                    @Override
-                    public void process(String element, RuntimeContext ctx, RequestIndexer indexer) {
-                        indexer.add(createIndexRequest(element));
-                    }
-                }
-        );*/
 
         ElasticsearchSink.Builder<String> esSinkBuilder = new ElasticsearchSink.Builder<>(httpHosts,
                 new MyElasticsearchSinkFunction("myIndex", "_doc"));
@@ -99,9 +81,12 @@ public class ChipMetadataSinkToESTask {
                 .addSink(esSinkBuilder.build());*/
         List<String> list = new ArrayList<>();
         list.add("{\"name\": \"jack\", \"age\": 20}");
+        list.add("{\"name\": \"rose\", \"age\": 21}");
         env.fromCollection(list)
                 .filter(Objects::nonNull)
-                .addSink(esSinkBuilder.build());
+                .writeAsText("file:///tmp/out", FileSystem.WriteMode.OVERWRITE);
+                //.addSink(esSinkBuilder.build())
+                //.name(MyElasticsearchSinkFunction.class.getName());
 
     }
 }

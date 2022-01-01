@@ -23,11 +23,11 @@ public class PrometheusMonitorTask {
 
     public void run(StreamExecutionEnvironment env, ParameterTool parameters) {
         log.info("process the prometheus monitor task");
-        /*env.addSource(new RandomSourceFunction(parameters.getInt("elements", Integer.MAX_VALUE)))
+        env.addSource(new RandomSourceFunction(parameters.getInt("elements", Integer.MAX_VALUE)))
                 .name(RandomSourceFunction.class.getSimpleName())
                 .map(new FlinkMetricsExposingMapFunction())
                 .name(FlinkMetricsExposingMapFunction.class.getSimpleName())
                 .addSink(new DiscardingSink<>())
-                .name(DiscardingSink.class.getSimpleName());*/
+                .name(DiscardingSink.class.getSimpleName());
     }
 }

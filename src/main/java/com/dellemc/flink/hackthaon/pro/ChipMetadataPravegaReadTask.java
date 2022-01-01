@@ -66,8 +66,8 @@ public class ChipMetadataPravegaReadTask {
                 //.name(ChipMetadataMetricsExposingMapFunction.class.getSimpleName())
                 //.writeAsText("file:///tmp/out", FileSystem.WriteMode.OVERWRITE);
                 //.map(chip -> chip.getDefectsLen())
-                .map(new FlinkMetricsExposingMapFunction())
-                .name(FlinkMetricsExposingMapFunction.class.getSimpleName())
+                .map(new ChipMetadataMetricsExposingMapFunction())
+                .name(ChipMetadataMetricsExposingMapFunction.class.getSimpleName())
                 .addSink(new DiscardingSink<>())
                 .name(DiscardingSink.class.getSimpleName());
     }

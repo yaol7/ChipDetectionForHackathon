@@ -1,19 +1,16 @@
 package com.dellemc.flink.hackthaon.pro.metrics;
 
-import com.dellemc.flink.hackthaon.pro.ChipMetadata;
 import org.apache.flink.api.common.functions.RichMapFunction;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.metrics.Counter;
-import org.apache.flink.metrics.Gauge;
 import org.apache.flink.metrics.Histogram;
 import org.apache.flink.runtime.metrics.DescriptiveStatisticsHistogram;
 
-public class FlinkMetricsExposingMapFunction extends RichMapFunction<ChipMetadata, Integer> {
+public class FlinkMetricsExposingMapFunction extends RichMapFunction<Integer, Integer> {
     private static final long serialVersionUID = 1L;
 
     private transient Counter eventCounter;
     private transient Histogram defectesHistogram;
-    private transient int defectsLen;
 
     @Override
     public void open(Configuration parameters) {
@@ -22,17 +19,13 @@ public class FlinkMetricsExposingMapFunction extends RichMapFunction<ChipMetadat
                 getRuntimeContext()
                         .getMetricGroup()
                         .histogram("defects_len", new DescriptiveStatisticsHistogram(10_000));
-        getRuntimeContext()
-                .getMetricGroup()
-                .gauge("myGauge", (Gauge<Integer>) () -> defectsLen);
     }
 
     @Override
-    public Integer map(ChipMetadata chipMetadata) {
+    public Integer map(Integer value) {
         eventCounter.inc();
-        defectesHistogram.update(chipMetadata.getDefectsLen());
-        this.defectsLen = chipMetadata.getDefectsLen();
+        defectesHistogram.update(value);
 
-        return chipMetadata.getDefectsLen();
+        return value;
     }
 }

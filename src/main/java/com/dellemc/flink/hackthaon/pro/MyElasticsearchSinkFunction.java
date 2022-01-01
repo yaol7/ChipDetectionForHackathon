@@ -23,13 +23,13 @@ public class MyElasticsearchSinkFunction implements ElasticsearchSinkFunction<St
     }
 
     public IndexRequest createIndexRequest(String element) {
-        Map<String, String> json = new HashMap<>();
-        json.put("data", element);
+        //Map<String, String> json = new HashMap<>();
+        //json.put("data", element);
 
         return Requests.indexRequest()
                 .index(indexName)
                 .type(type)
-                .source(json, XContentType.JSON);
+                .source(element, XContentType.JSON);
     }
 
     @Override

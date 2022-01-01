@@ -32,7 +32,8 @@ import java.util.Objects;
 public class ChipMetadataSinkToESTask {
     private static Logger log = LoggerFactory.getLogger(ChipMetadataSinkToESTask.class);
 
-    private ChipMetadataSinkToESTask() {}
+    private ChipMetadataSinkToESTask() {
+    }
 
     private static class Singleton {
         private static ChipMetadataSinkToESTask INSTANCE = new ChipMetadataSinkToESTask();
@@ -69,11 +70,12 @@ public class ChipMetadataSinkToESTask {
             }
         });
 
-        /*
-       env.addSource(source)
+        env.enableCheckpointing(5000);
+        env.addSource(source)
                 .filter(Objects::nonNull)
-                .addSink(esSinkBuilder.build());*/
-        List<String> list = new ArrayList<>();
+                .addSink(esSinkBuilder.build())
+                .name(MyElasticsearchSinkFunction.class.getName());
+        /*List<String> list = new ArrayList<>();
         list.add("{\"name\": \"jack\", \"age\": 20}");
         list.add("{\"name\": \"rose\", \"age\": 21}");
         env.enableCheckpointing(5000);
@@ -81,7 +83,7 @@ public class ChipMetadataSinkToESTask {
                 .filter(Objects::nonNull)
                 //.writeAsText("file:///tmp/out", FileSystem.WriteMode.OVERWRITE);
                 .addSink(esSinkBuilder.build())
-                .name(MyElasticsearchSinkFunction.class.getName());
+                .name(MyElasticsearchSinkFunction.class.getName());*/
 
     }
 }

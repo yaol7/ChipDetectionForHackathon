@@ -43,7 +43,7 @@ public class ChipMetadataSinkToESTask {
     }
 
     public void run(StreamExecutionEnvironment env, ParameterTool params, final String scope, final String streamName) throws URISyntaxException {
-        /*PravegaConfig pravegaConfig = PravegaConfig
+        PravegaConfig pravegaConfig = PravegaConfig
                 .fromParams(params)
                 .withControllerURI(new URI("tcp://172.17.0.1:9090"))
                 .withDefaultScope(scope);
@@ -67,8 +67,7 @@ public class ChipMetadataSinkToESTask {
             } else {
                 log.error("Failed to sink data to ES, action: {}", action, failure);
             }
-        });*/
-
+        });
 
         /*
        env.addSource(source)
@@ -77,11 +76,12 @@ public class ChipMetadataSinkToESTask {
         List<String> list = new ArrayList<>();
         list.add("{\"name\": \"jack\", \"age\": 20}");
         list.add("{\"name\": \"rose\", \"age\": 21}");
+        env.enableCheckpointing(5000);
         env.fromCollection(list)
                 .filter(Objects::nonNull)
-                .writeAsText("file:///tmp/out", FileSystem.WriteMode.OVERWRITE);
-                //.addSink(esSinkBuilder.build())
-                //.name(MyElasticsearchSinkFunction.class.getName());
+                //.writeAsText("file:///tmp/out", FileSystem.WriteMode.OVERWRITE);
+                .addSink(esSinkBuilder.build())
+                .name(MyElasticsearchSinkFunction.class.getName());
 
     }
 }

@@ -91,7 +91,12 @@ public class ChipMetadataSinkToESTask {
         });
 
         env.enableCheckpointing(5000);
-        env.addSource(source)
+        /*env.addSource(source)
+                .filter(Objects::nonNull)
+                .addSink(esSinkBuilder.build());*/
+        List<String> list = new ArrayList<>();
+        list.add("{\"name\": \"jack\", \"age\": 20}");
+        env.fromCollection(list)
                 .filter(Objects::nonNull)
                 .addSink(esSinkBuilder.build());
 

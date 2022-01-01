@@ -43,7 +43,7 @@ public class ChipMetadataSinkToESTask {
     }
 
     public void run(StreamExecutionEnvironment env, ParameterTool params, final String scope, final String streamName) throws URISyntaxException {
-        PravegaConfig pravegaConfig = PravegaConfig
+        /*PravegaConfig pravegaConfig = PravegaConfig
                 .fromParams(params)
                 .withControllerURI(new URI("tcp://172.17.0.1:9090"))
                 .withDefaultScope(scope);
@@ -56,11 +56,6 @@ public class ChipMetadataSinkToESTask {
         List<HttpHost> httpHosts = new ArrayList<>();
         httpHosts.add(new HttpHost("172.17.0.1", 9200, "http"));
 
-        /**
-         * sample data
-         * {'encoding_level': 95, 'version': '1', 'img_handle': '0f757a7812', 'topic': 'chipresults', 'width': 1920, 'height': 1200, 'encoding_type': 'jpeg', 'defects': [{'type': '0', 'tl': [1457, 291], 'br': [1500, 339]}, {'type': '0', 'tl': [111, 206], 'br': [169, 247]}, {'type': '1', 'tl': [841, 35], 'br': [894, 66]}], 'defectsLen': 3, 'frame_number': 0, 'timestamp': '2021-12-31T09:49:02.799Z', 'factory': 'shanghai', 'production_line': '1', 'location': [121.25150018654568, 31.360173390813358]}
-         * */
-
         ElasticsearchSink.Builder<String> esSinkBuilder = new ElasticsearchSink.Builder<>(httpHosts,
                 new MyElasticsearchSinkFunction("myIndex", "_doc"));
         //set batch process
@@ -72,11 +67,11 @@ public class ChipMetadataSinkToESTask {
             } else {
                 log.error("Failed to sink data to ES, action: {}", action, failure);
             }
-        });
+        });*/
 
 
-        env.enableCheckpointing(5000);
-        /*env.addSource(source)
+        /*
+       env.addSource(source)
                 .filter(Objects::nonNull)
                 .addSink(esSinkBuilder.build());*/
         List<String> list = new ArrayList<>();

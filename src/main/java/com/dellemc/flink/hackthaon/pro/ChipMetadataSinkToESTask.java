@@ -57,7 +57,7 @@ public class ChipMetadataSinkToESTask {
         httpHosts.add(new HttpHost("172.17.0.1", 9200, "http"));
 
         ElasticsearchSink.Builder<String> esSinkBuilder = new ElasticsearchSink.Builder<>(httpHosts,
-                new MyElasticsearchSinkFunction("myIndex", "_doc"));
+                new MyElasticsearchSinkFunction("chipindex", "_doc"));
         //set batch process
         esSinkBuilder.setBulkFlushMaxActions(50);
         esSinkBuilder.setBulkFlushMaxSizeMb(10);

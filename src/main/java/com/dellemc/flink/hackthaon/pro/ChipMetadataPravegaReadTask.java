@@ -1,6 +1,7 @@
 package com.dellemc.flink.hackthaon.pro;
 
 import com.dellemc.flink.hackthaon.pro.metrics.ChipMetadataMetricsExposingMapFunction;
+import com.dellemc.flink.hackthaon.pro.metrics.EventsCountExposingMapFunction;
 import io.pravega.connectors.flink.FlinkPravegaReader;
 import io.pravega.connectors.flink.PravegaConfig;
 import io.pravega.shaded.com.google.gson.Gson;
@@ -60,11 +61,18 @@ public class ChipMetadataPravegaReadTask {
                 .keyBy(obj -> obj.getProduction_line())
                 .window(TumblingEventTimeWindows.of(Time.seconds(5)))
                 .sum("defectsLen")
-                //.map(new ChipMetadataMetricsExposingMapFunction())
-                //.name(ChipMetadataMetricsExposingMapFunction.class.getSimpleName())
-                //.writeAsText("file:///tmp/out", FileSystem.WriteMode.OVERWRITE);
-                //.map(chip -> chip.getDefectsLen())
                 .map(new ChipMetadataMetricsExposingMapFunction())
+                .name(ChipMetadataMetricsExposingMapFunction.class.getSimpleName())
+                .addSink(new DiscardingSink<>())
+                .name(DiscardingSink.class.getSimpleName());
+
+        //count total events for every production line
+        env.addSource(source)
+                .filter(jx -> !org.apache.flink.shaded.guava18.com.google.common.base.Strings.isNullOrEmpty(jx))
+                .map(json -> GSON.fromJson(json.trim(), ChipMetadata.class))
+                .filter(Objects::nonNull)
+                .keyBy(obj -> obj.getProduction_line())
+                .map(new EventsCountExposingMapFunction())
                 .name(ChipMetadataMetricsExposingMapFunction.class.getSimpleName())
                 .addSink(new DiscardingSink<>())
                 .name(DiscardingSink.class.getSimpleName());

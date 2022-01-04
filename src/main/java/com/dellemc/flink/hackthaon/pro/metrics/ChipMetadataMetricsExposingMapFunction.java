@@ -13,6 +13,8 @@ public class ChipMetadataMetricsExposingMapFunction extends RichMapFunction<Chip
     private transient int defectsLen_1;
     private transient int defectsLen_2;
     private transient int defectsLen_3;
+    private transient int defectsLen_4;
+    private transient int defectsLen_5;
 
     @Override
     public void open(Configuration parameters) {
@@ -26,6 +28,12 @@ public class ChipMetadataMetricsExposingMapFunction extends RichMapFunction<Chip
         getRuntimeContext()
                 .getMetricGroup()
                 .gauge("defects_len_3", (Gauge<Integer>) () -> defectsLen_3);
+        getRuntimeContext()
+                .getMetricGroup()
+                .gauge("defects_len_4", (Gauge<Integer>) () -> defectsLen_4);
+        getRuntimeContext()
+                .getMetricGroup()
+                .gauge("defects_len_5", (Gauge<Integer>) () -> defectsLen_5);
 
     }
 
@@ -41,6 +49,12 @@ public class ChipMetadataMetricsExposingMapFunction extends RichMapFunction<Chip
                 break;
             case "3":
                 defectsLen_3 = chipMetadata.getDefectsLen();
+                break;
+            case "4":
+                defectsLen_4 = chipMetadata.getDefectsLen();
+                break;
+            case "5":
+                defectsLen_5 = chipMetadata.getDefectsLen();
                 break;
             default:
         }

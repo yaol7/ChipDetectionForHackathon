@@ -21,11 +21,6 @@ public class ChipMetadataAnalysisJob {
         log.info("metrics job is stating.");
         final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         env.enableCheckpointing(500);
-        //env.setParallelism(1);
-
-        //monitor services
-        //PrometheusMonitorTask prometheusMonitorTask = PrometheusMonitorTask.getInstance();
-        //prometheusMonitorTask.run(env, parameters);
 
         //chipMetadata process
         ChipMetadataPravegaReadTask chipMetadataPravegaReadTask = ChipMetadataPravegaReadTask.getInstance();

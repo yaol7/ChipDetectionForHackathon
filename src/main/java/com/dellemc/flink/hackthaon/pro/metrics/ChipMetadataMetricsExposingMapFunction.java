@@ -12,26 +12,40 @@ public class ChipMetadataMetricsExposingMapFunction extends RichMapFunction<Chip
     private static final long serialVersionUID = 1L;
 
     private transient Counter eventCounter;
-    private transient Histogram defectesHistogram;
-    private transient int defectsLen;
+    private transient int defectsLen_1;
+    private transient int defectsLen_2;
+    private transient int defectsLen_3;
 
     @Override
     public void open(Configuration parameters) {
         eventCounter = getRuntimeContext().getMetricGroup().counter("events");
-        defectesHistogram =
-                getRuntimeContext()
-                        .getMetricGroup()
-                        .histogram("defects_len", new DescriptiveStatisticsHistogram(10_000));
         getRuntimeContext()
                 .getMetricGroup()
-                .gauge("defects_len_2", (Gauge<Integer>) () -> defectsLen);
+                .gauge("defects_len_1", (Gauge<Integer>) () -> defectsLen_1);
+        getRuntimeContext()
+                .getMetricGroup()
+                .gauge("defects_len_2", (Gauge<Integer>) () -> defectsLen_2);
+        getRuntimeContext()
+                .getMetricGroup()
+                .gauge("defects_len_3", (Gauge<Integer>) () -> defectsLen_3);
+
     }
 
     @Override
     public Integer map(ChipMetadata chipMetadata) {
         eventCounter.inc();
-        defectesHistogram.update(chipMetadata.getDefectsLen());
-        this.defectsLen = chipMetadata.getDefectsLen();
+        switch (chipMetadata.getProduction_line()) {
+            case "1":
+                defectsLen_1 = chipMetadata.getDefectsLen();
+                break;
+            case "2":
+                defectsLen_2 = chipMetadata.getDefectsLen();
+                break;
+            case "3":
+                defectsLen_3 = chipMetadata.getDefectsLen();
+                break;
+            default:
+        }
 
         return chipMetadata.getDefectsLen();
     }

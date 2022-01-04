@@ -68,12 +68,12 @@ public class ChipMetadataPravegaReadTask {
 
         //count total events for every production line
         env.addSource(source)
-                .filter(jx -> !org.apache.flink.shaded.guava18.com.google.common.base.Strings.isNullOrEmpty(jx))
+                .filter(jx -> !Strings.isNullOrEmpty(jx))
                 .map(json -> GSON.fromJson(json.trim(), ChipMetadata.class))
                 .filter(Objects::nonNull)
                 .keyBy(obj -> obj.getProduction_line())
                 .map(new EventsCountExposingMapFunction())
-                .name(ChipMetadataMetricsExposingMapFunction.class.getSimpleName())
+                .name(EventsCountExposingMapFunction.class.getSimpleName())
                 .addSink(new DiscardingSink<>())
                 .name(DiscardingSink.class.getSimpleName());
     }

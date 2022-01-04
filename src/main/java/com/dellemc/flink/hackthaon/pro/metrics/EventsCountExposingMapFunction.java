@@ -4,12 +4,10 @@ import com.dellemc.flink.hackthaon.pro.ChipMetadata;
 import org.apache.flink.api.common.functions.RichMapFunction;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.metrics.Counter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class EventsCountExposingMapFunction extends RichMapFunction<ChipMetadata, Integer> {
     private static final long serialVersionUID = 1L;
-    private static Logger log = LoggerFactory.getLogger(ChipMetadataMetricsExposingMapFunction.class);
+
     private transient Counter events_count_1;
     private transient Counter events_count_2;
     private transient Counter events_count_3;

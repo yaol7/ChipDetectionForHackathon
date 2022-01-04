@@ -75,15 +75,5 @@ public class ChipMetadataSinkToESTask {
                 .filter(Objects::nonNull)
                 .addSink(esSinkBuilder.build())
                 .name(MyElasticsearchSinkFunction.class.getName());
-        /*List<String> list = new ArrayList<>();
-        list.add("{\"name\": \"jack\", \"age\": 20}");
-        list.add("{\"name\": \"rose\", \"age\": 21}");
-        env.enableCheckpointing(5000);
-        env.fromCollection(list)
-                .filter(Objects::nonNull)
-                //.writeAsText("file:///tmp/out", FileSystem.WriteMode.OVERWRITE);
-                .addSink(esSinkBuilder.build())
-                .name(MyElasticsearchSinkFunction.class.getName());*/
-
     }
 }

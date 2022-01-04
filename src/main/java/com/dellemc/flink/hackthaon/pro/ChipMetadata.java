@@ -8,7 +8,7 @@ public class ChipMetadata {
     private int encoding_level;
     private String version;
     private String img_handle;
-    private String topic;
+    private String stream;
     private int width;
     private int height;
     private String encoding_type;
@@ -23,13 +23,13 @@ public class ChipMetadata {
     public ChipMetadata() {
     }
 
-    public ChipMetadata(int encoding_level, String version, String img_handle, String topic, int width,
+    public ChipMetadata(int encoding_level, String version, String img_handle, String stream, int width,
                         int height, String encoding_type, JsonArray defects, int defectsLen, int frame_number,
                         Date timestamp, String factory, String production_line, List<Float> location) {
         this.encoding_level = encoding_level;
         this.version = version;
         this.img_handle = img_handle;
-        this.topic = topic;
+        this.stream = stream;
         this.width = width;
         this.height = height;
         this.encoding_type = encoding_type;
@@ -66,12 +66,12 @@ public class ChipMetadata {
         this.img_handle = img_handle;
     }
 
-    public String getTopic() {
-        return topic;
+    public String getStream() {
+        return stream;
     }
 
-    public void setTopic(String topic) {
-        this.topic = topic;
+    public void setStream(String topic) {
+        this.stream = stream;
     }
 
     public int getWidth() {
@@ -152,5 +152,25 @@ public class ChipMetadata {
 
     public void setLocation(List<Float> location) {
         this.location = location;
+    }
+
+    @Override
+    public String toString() {
+        return "ChipMetadata{" +
+                "encoding_level=" + encoding_level +
+                ", version='" + version + '\'' +
+                ", img_handle='" + img_handle + '\'' +
+                ", stream='" + stream + '\'' +
+                ", width=" + width +
+                ", height=" + height +
+                ", encoding_type='" + encoding_type + '\'' +
+                ", defects=" + defects +
+                ", defectsLen=" + defectsLen +
+                ", frame_number=" + frame_number +
+                ", timestamp=" + timestamp +
+                ", factory='" + factory + '\'' +
+                ", production_line='" + production_line + '\'' +
+                ", location=" + location +
+                '}';
     }
 }

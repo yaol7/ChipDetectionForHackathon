@@ -1,12 +1,10 @@
 package com.dellemc.flink.hackthaon.pro;
 
 import io.pravega.shaded.com.google.gson.JsonArray;
-import io.pravega.shaded.com.google.gson.JsonObject;
-import org.elasticsearch.common.geo.GeoPoint;
-import scala.util.parsing.json.JSON;
 import scala.util.parsing.json.JSONObject;
 
 import java.util.Date;
+import java.util.List;
 
 public class ChipMetadata {
     private int encoding_level;
@@ -22,14 +20,14 @@ public class ChipMetadata {
     private Date timestamp;
     private String factory;
     private String production_line;
-    private JSONObject location;
+    private List<Float> location;
 
     public ChipMetadata() {
     }
 
     public ChipMetadata(int encoding_level, String version, String img_handle, String stream, int width,
                         int height, String encoding_type, JsonArray defects, int defectsLen, int frame_number,
-                        Date timestamp, String factory, String production_line, JSONObject location) {
+                        Date timestamp, String factory, String production_line, List<Float> location) {
         this.encoding_level = encoding_level;
         this.version = version;
         this.img_handle = img_handle;
@@ -150,11 +148,11 @@ public class ChipMetadata {
         this.production_line = production_line;
     }
 
-    public JSONObject getLocation() {
+    public List<Float> getLocation() {
         return location;
     }
 
-    public void setLocation(JSONObject location) {
+    public void setLocation(List<Float> location) {
         this.location = location;
     }
 

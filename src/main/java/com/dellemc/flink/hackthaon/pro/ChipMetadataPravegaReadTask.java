@@ -44,11 +44,12 @@ public class ChipMetadataPravegaReadTask {
                 .withDefaultScope(scope);
         FlinkPravegaReader<String> source = FlinkPravegaReader.<String>builder()
                 .withPravegaConfig(pravegaConfig)
+                .withReaderGroupName("readergroup1")
                 .forStream(streamName)
                 .withDeserializationSchema(new SimpleStringSchema())
                 .build();
         env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime);
-        /*env.addSource(source)
+        env.addSource(source)
                 .filter(jx -> !Strings.isNullOrEmpty(jx))
                 .map(json -> GSON.fromJson(json.trim(), ChipMetadata.class))
                 .filter(Objects::nonNull)
@@ -64,10 +65,16 @@ public class ChipMetadataPravegaReadTask {
                 .map(new ChipMetadataMetricsExposingMapFunction())
                 .name(ChipMetadataMetricsExposingMapFunction.class.getSimpleName())
                 .addSink(new DiscardingSink<>())
-                .name(DiscardingSink.class.getSimpleName());*/
+                .name(DiscardingSink.class.getSimpleName());
 
         //count total events for every production line
-        env.addSource(source)
+        FlinkPravegaReader<String> source2 = FlinkPravegaReader.<String>builder()
+                .withPravegaConfig(pravegaConfig)
+                .withReaderGroupName("readergroup2")
+                .forStream(streamName)
+                .withDeserializationSchema(new SimpleStringSchema())
+                .build();
+        env.addSource(source2)
                 .filter(jx -> !Strings.isNullOrEmpty(jx))
                 .map(json -> GSON.fromJson(json.trim(), ChipMetadata.class))
                 .filter(Objects::nonNull)

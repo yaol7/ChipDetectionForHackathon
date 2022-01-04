@@ -50,6 +50,7 @@ public class ChipMetadataSinkToESTask {
                 .withDefaultScope(scope);
         FlinkPravegaReader<String> source = FlinkPravegaReader.<String>builder()
                 .withPravegaConfig(pravegaConfig)
+                .withReaderGroupName("readergroup3")
                 .forStream(streamName)
                 .withDeserializationSchema(new SimpleStringSchema())
                 .build();

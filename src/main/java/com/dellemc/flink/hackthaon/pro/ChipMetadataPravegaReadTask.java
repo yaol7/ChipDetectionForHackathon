@@ -59,7 +59,7 @@ public class ChipMetadataPravegaReadTask {
                         return chipMetadata.getTimestamp().getTime();
                     }
                 })
-                .keyBy(obj -> obj.getFactory())
+                .keyBy(obj -> obj.getProduction_line())
                 .window(TumblingEventTimeWindows.of(Time.seconds(5)))
                 .sum("defectsLen")
                 //.map(new ChipMetadataMetricsExposingMapFunction())

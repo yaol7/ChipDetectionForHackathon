@@ -22,7 +22,7 @@ cd docker/ElasticSearch
 ```
 ### Startup Video Detection
 ```
-sudo docker run -itd  -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix devops-repo.isus.emc.com:8116/liuj84/python_ia:1.1 bash
+sudo docker run -itd  -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix devops-repo.isus.emc.com:8116/liuj84/python_ia:1.2 bash
 sudo docker exec -it <docker-id> bash
 cd /video_analytics
 python udf_process.py

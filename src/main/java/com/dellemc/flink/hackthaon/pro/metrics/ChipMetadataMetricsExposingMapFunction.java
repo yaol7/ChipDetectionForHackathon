@@ -24,7 +24,7 @@ public class ChipMetadataMetricsExposingMapFunction extends RichMapFunction<Chip
                         .histogram("defects_len", new DescriptiveStatisticsHistogram(10_000));
         getRuntimeContext()
                 .getMetricGroup()
-                .gauge("myGauge", (Gauge<Integer>) () -> defectsLen);
+                .gauge("defects_len_2", (Gauge<Integer>) () -> defectsLen);
     }
 
     @Override

@@ -1,14 +1,12 @@
 package com.dellemc.flink.hackthaon.pro;
 
 import com.dellemc.flink.hackthaon.pro.metrics.ChipMetadataMetricsExposingMapFunction;
-import com.dellemc.flink.hackthaon.pro.metrics.FlinkMetricsExposingMapFunction;
 import io.pravega.connectors.flink.FlinkPravegaReader;
 import io.pravega.connectors.flink.PravegaConfig;
 import io.pravega.shaded.com.google.gson.Gson;
 import io.pravega.shaded.com.google.gson.GsonBuilder;
 import org.apache.flink.api.common.serialization.SimpleStringSchema;
 import org.apache.flink.api.java.utils.ParameterTool;
-import org.apache.flink.core.fs.FileSystem;
 import org.apache.flink.streaming.api.TimeCharacteristic;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.sink.DiscardingSink;

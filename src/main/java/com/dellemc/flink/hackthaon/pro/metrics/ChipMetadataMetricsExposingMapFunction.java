@@ -5,8 +5,6 @@ import org.apache.flink.api.common.functions.RichMapFunction;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.metrics.Counter;
 import org.apache.flink.metrics.Gauge;
-import org.apache.flink.metrics.Histogram;
-import org.apache.flink.runtime.metrics.DescriptiveStatisticsHistogram;
 
 public class ChipMetadataMetricsExposingMapFunction extends RichMapFunction<ChipMetadata, Integer> {
     private static final long serialVersionUID = 1L;

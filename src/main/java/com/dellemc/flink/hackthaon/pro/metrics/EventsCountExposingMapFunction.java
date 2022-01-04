@@ -10,8 +10,6 @@ import org.slf4j.LoggerFactory;
 public class EventsCountExposingMapFunction extends RichMapFunction<ChipMetadata, Integer> {
     private static final long serialVersionUID = 1L;
     private static Logger log = LoggerFactory.getLogger(ChipMetadataMetricsExposingMapFunction.class);
-
-    private transient Counter eventCounter;
     private transient Counter events_count_1;
     private transient Counter events_count_2;
     private transient Counter events_count_3;
@@ -20,7 +18,6 @@ public class EventsCountExposingMapFunction extends RichMapFunction<ChipMetadata
 
     @Override
     public void open(Configuration parameters) {
-        eventCounter = getRuntimeContext().getMetricGroup().counter("events");
         events_count_1 = getRuntimeContext()
                 .getMetricGroup()
                 .counter("events_count_1");
@@ -42,7 +39,6 @@ public class EventsCountExposingMapFunction extends RichMapFunction<ChipMetadata
 
     @Override
     public Integer map(ChipMetadata chipMetadata) {
-        eventCounter.inc();
         switch (chipMetadata.getProduction_line()) {
             case "1":
                 events_count_1.inc();

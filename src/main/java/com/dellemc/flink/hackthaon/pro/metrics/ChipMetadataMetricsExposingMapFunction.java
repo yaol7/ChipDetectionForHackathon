@@ -9,7 +9,6 @@ import org.apache.flink.metrics.Gauge;
 public class ChipMetadataMetricsExposingMapFunction extends RichMapFunction<ChipMetadata, Integer> {
     private static final long serialVersionUID = 1L;
 
-    private transient Counter eventCounter;
     private transient int defectsLen_1;
     private transient int defectsLen_2;
     private transient int defectsLen_3;
@@ -18,7 +17,6 @@ public class ChipMetadataMetricsExposingMapFunction extends RichMapFunction<Chip
 
     @Override
     public void open(Configuration parameters) {
-        eventCounter = getRuntimeContext().getMetricGroup().counter("events");
         getRuntimeContext()
                 .getMetricGroup()
                 .gauge("defects_len_1", (Gauge<Integer>) () -> defectsLen_1);
@@ -39,7 +37,6 @@ public class ChipMetadataMetricsExposingMapFunction extends RichMapFunction<Chip
 
     @Override
     public Integer map(ChipMetadata chipMetadata) {
-        eventCounter.inc();
         switch (chipMetadata.getProduction_line()) {
             case "1":
                 defectsLen_1 = chipMetadata.getDefectsLen();

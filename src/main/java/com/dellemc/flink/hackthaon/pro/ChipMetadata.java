@@ -1,7 +1,6 @@
 package com.dellemc.flink.hackthaon.pro;
 
 import io.pravega.shaded.com.google.gson.JsonArray;
-import scala.util.parsing.json.JSONObject;
 
 import java.util.Date;
 import java.util.List;

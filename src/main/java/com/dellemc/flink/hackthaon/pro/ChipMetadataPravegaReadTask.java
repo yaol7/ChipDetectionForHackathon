@@ -65,22 +65,5 @@ public class ChipMetadataPravegaReadTask {
                 .name(ChipMetadataMetricsExposingMapFunction.class.getSimpleName())
                 .addSink(new DiscardingSink<>())
                 .name(DiscardingSink.class.getSimpleName());
-
-        //count total events for every production line
-        /*FlinkPravegaReader<String> source2 = FlinkPravegaReader.<String>builder()
-                .withPravegaConfig(pravegaConfig)
-                .withReaderGroupName("readergroup2")
-                .forStream(streamName)
-                .withDeserializationSchema(new SimpleStringSchema())
-                .build();
-        env.addSource(source2)
-                .filter(jx -> !Strings.isNullOrEmpty(jx))
-                .map(json -> GSON.fromJson(json.trim(), ChipMetadata.class))
-                .filter(Objects::nonNull)
-                .keyBy(obj -> obj.getProduction_line())
-                .map(new EventsCountExposingMapFunction())
-                .name(EventsCountExposingMapFunction.class.getSimpleName())
-                .addSink(new DiscardingSink<>())
-                .name(DiscardingSink.class.getSimpleName());*/
     }
 }

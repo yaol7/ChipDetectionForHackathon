@@ -78,7 +78,13 @@ public class ChipMetadataSinkToESTask {
                 .addSink(new DiscardingSink<>())
                 .name(DiscardingSink.class.getSimpleName());
 
-        env.addSource(source)
+        FlinkPravegaReader<String> source3 = FlinkPravegaReader.<String>builder()
+                .withPravegaConfig(pravegaConfig)
+                .withReaderGroupName("readergroup8")
+                .forStream(streamName)
+                .withDeserializationSchema(new SimpleStringSchema())
+                .build();
+        env.addSource(source3)
                 .filter(jx -> !Strings.isNullOrEmpty(jx))
                 .addSink(esSinkBuilder.build())
                 .name(MyElasticsearchSinkFunction.class.getName());

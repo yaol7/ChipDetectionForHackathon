@@ -1,0 +1,8 @@
+---
+version: '3'
+services:
+  video-process:
+    container_name: gen 
+    image: devops-repo.isus.emc.com:8116/liuj84/python_ia:1.2
+    command: python video_analytics/gen_sample.py -n 10000
+

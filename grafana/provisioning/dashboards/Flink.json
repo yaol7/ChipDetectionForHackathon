@@ -704,6 +704,100 @@
       "timeShift": null,
       "title": "Defects Len Per Production Line",
       "type": "timeseries"
+    },
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "dark-blue",
+                "value": 0.4
+              },
+              {
+                "color": "semi-dark-red",
+                "value": 0.6
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 24,
+        "x": 0,
+        "y": 12
+      },
+      "id": 27,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "text": {}
+      },
+      "pluginVersion": "8.2.3",
+      "targets": [
+        {
+          "exemplar": true,
+          "expr": "flink_taskmanager_job_task_operator_defect_rate_1",
+          "interval": "",
+          "legendFormat": "line-1",
+          "refId": "A"
+        },
+        {
+          "exemplar": true,
+          "expr": "flink_taskmanager_job_task_operator_defect_rate_2",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "line-2",
+          "refId": "B"
+        },
+        {
+          "exemplar": true,
+          "expr": "flink_taskmanager_job_task_operator_defect_rate_3",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "line-3",
+          "refId": "C"
+        },
+        {
+          "exemplar": true,
+          "expr": "flink_taskmanager_job_task_operator_defect_rate_4",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "line-4",
+          "refId": "D"
+        },
+        {
+          "exemplar": true,
+          "expr": "flink_taskmanager_job_task_operator_defect_rate_5",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "line-5",
+          "refId": "E"
+        }
+      ],
+      "title": "Defect Rate Per Production Line",
+      "type": "gauge"
     }
   ],
   "refresh": "5s",
@@ -745,5 +839,5 @@
   "timezone": "",
   "title": "Flink",
   "uid": "veLveEOiz",
-  "version": 4
+  "version": 2
 }

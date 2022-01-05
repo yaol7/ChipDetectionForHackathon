@@ -1,7 +1,6 @@
 package com.dellemc.flink.hackthaon.pro;
 
 import com.dellemc.flink.hackthaon.pro.metrics.ChipMetadataMetricsExposingMapFunction;
-import com.dellemc.flink.hackthaon.pro.metrics.EventsCountExposingMapFunction;
 import io.pravega.connectors.flink.FlinkPravegaReader;
 import io.pravega.connectors.flink.PravegaConfig;
 import io.pravega.shaded.com.google.gson.Gson;
@@ -68,7 +67,7 @@ public class ChipMetadataPravegaReadTask {
                 .name(DiscardingSink.class.getSimpleName());
 
         //count total events for every production line
-        FlinkPravegaReader<String> source2 = FlinkPravegaReader.<String>builder()
+        /*FlinkPravegaReader<String> source2 = FlinkPravegaReader.<String>builder()
                 .withPravegaConfig(pravegaConfig)
                 .withReaderGroupName("readergroup2")
                 .forStream(streamName)
@@ -82,6 +81,6 @@ public class ChipMetadataPravegaReadTask {
                 .map(new EventsCountExposingMapFunction())
                 .name(EventsCountExposingMapFunction.class.getSimpleName())
                 .addSink(new DiscardingSink<>())
-                .name(DiscardingSink.class.getSimpleName());
+                .name(DiscardingSink.class.getSimpleName());*/
     }
 }

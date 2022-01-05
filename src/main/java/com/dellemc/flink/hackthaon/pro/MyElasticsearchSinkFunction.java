@@ -27,14 +27,13 @@ public class MyElasticsearchSinkFunction implements ElasticsearchSinkFunction<St
         boolean isIndexExist = false;
         IndicesExistsRequest indicesExistsRequest = Requests.indicesExistsRequest(indexName);
         for (String indexName : indicesExistsRequest.indices()) {
-            if (indexName.equals(indexName)) {
+            if (indexName.equals(this.indexName)) {
                 isIndexExist = true;
                 break;
             }
         }
         if (!isIndexExist) {
             log.info("create the index: {}", indexName);
-
             Requests.createIndexRequest(indexName)
                     .mapping(type, indexMapping(), XContentType.JSON);
         }

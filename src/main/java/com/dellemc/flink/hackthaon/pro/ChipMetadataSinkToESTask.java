@@ -1,21 +1,18 @@
 package com.dellemc.flink.hackthaon.pro;
 
+import com.dellemc.flink.hackthaon.pro.metrics.EventsCountExposingMapFunction;
 import io.pravega.connectors.flink.FlinkPravegaReader;
 import io.pravega.connectors.flink.PravegaConfig;
-import org.apache.flink.api.common.functions.RuntimeContext;
+import io.pravega.shaded.com.google.gson.Gson;
+import io.pravega.shaded.com.google.gson.GsonBuilder;
 import org.apache.flink.api.common.serialization.SimpleStringSchema;
 import org.apache.flink.api.java.utils.ParameterTool;
-import org.apache.flink.core.fs.FileSystem;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.connectors.elasticsearch.ActionRequestFailureHandler;
-import org.apache.flink.streaming.connectors.elasticsearch.ElasticsearchSinkFunction;
-import org.apache.flink.streaming.connectors.elasticsearch.RequestIndexer;
 import org.apache.flink.streaming.connectors.elasticsearch7.ElasticsearchSink;
-import org.apache.flink.streaming.connectors.elasticsearch7.RestClientFactory;
 import org.apache.flink.util.ExceptionUtils;
 import org.apache.http.HttpHost;
-import org.elasticsearch.action.index.IndexRequest;
-import org.elasticsearch.client.Requests;
+import org.elasticsearch.common.Strings;
 import org.elasticsearch.common.util.concurrent.EsRejectedExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,14 +20,13 @@ import org.slf4j.LoggerFactory;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 
 public class ChipMetadataSinkToESTask {
     private static Logger log = LoggerFactory.getLogger(ChipMetadataSinkToESTask.class);
+    private static final Gson GSON = new GsonBuilder().serializeSpecialFloatingPointValues().create();
 
     private ChipMetadataSinkToESTask() {
     }
@@ -71,9 +67,14 @@ public class ChipMetadataSinkToESTask {
             }
         });
 
-        env.enableCheckpointing(5000);
         env.addSource(source)
+                .filter(jx -> !Strings.isNullOrEmpty(jx))
+                .map(json -> GSON.fromJson(json.trim(), ChipMetadata.class))
                 .filter(Objects::nonNull)
+                .keyBy(obj -> obj.getProduction_line())
+                .map(new EventsCountExposingMapFunction())
+                .name(EventsCountExposingMapFunction.class.getSimpleName())
+                .map(obj -> GSON.toJson(obj))
                 .addSink(esSinkBuilder.build())
                 .name(MyElasticsearchSinkFunction.class.getName());
     }

@@ -544,7 +544,7 @@
           {
             "evaluator": {
               "params": [
-                0
+                20
               ],
               "type": "gt"
             },
@@ -554,6 +554,98 @@
             "query": {
               "params": [
                 "A",
+                "5m",
+                "now"
+              ]
+            },
+            "reducer": {
+              "params": [],
+              "type": "avg"
+            },
+            "type": "query"
+          },
+          {
+            "evaluator": {
+              "params": [
+                20
+              ],
+              "type": "gt"
+            },
+            "operator": {
+              "type": "or"
+            },
+            "query": {
+              "params": [
+                "B",
+                "5m",
+                "now"
+              ]
+            },
+            "reducer": {
+              "params": [],
+              "type": "avg"
+            },
+            "type": "query"
+          },
+          {
+            "evaluator": {
+              "params": [
+                20
+              ],
+              "type": "gt"
+            },
+            "operator": {
+              "type": "or"
+            },
+            "query": {
+              "params": [
+                "C",
+                "5m",
+                "now"
+              ]
+            },
+            "reducer": {
+              "params": [],
+              "type": "avg"
+            },
+            "type": "query"
+          },
+          {
+            "evaluator": {
+              "params": [
+                20
+              ],
+              "type": "gt"
+            },
+            "operator": {
+              "type": "or"
+            },
+            "query": {
+              "params": [
+                "D",
+                "5m",
+                "now"
+              ]
+            },
+            "reducer": {
+              "params": [],
+              "type": "avg"
+            },
+            "type": "query"
+          },
+          {
+            "evaluator": {
+              "params": [
+                20
+              ],
+              "type": "gt"
+            },
+            "operator": {
+              "type": "or"
+            },
+            "query": {
+              "params": [
+                "E",
                 "5m",
                 "now"
               ]
@@ -696,7 +788,7 @@
         {
           "colorMode": "critical",
           "op": "gt",
-          "value": 0,
+          "value": 20,
           "visible": true
         }
       ],
@@ -713,8 +805,10 @@
             "mode": "thresholds"
           },
           "mappings": [],
+          "max": 100,
+          "min": 0,
           "thresholds": {
-            "mode": "absolute",
+            "mode": "percentage",
             "steps": [
               {
                 "color": "green",
@@ -722,19 +816,20 @@
               },
               {
                 "color": "dark-blue",
-                "value": 0.4
+                "value": 40
               },
               {
-                "color": "semi-dark-red",
-                "value": 0.6
+                "color": "dark-red",
+                "value": 50
               }
             ]
-          }
+          },
+          "unit": "percent"
         },
         "overrides": []
       },
       "gridPos": {
-        "h": 6,
+        "h": 11,
         "w": 24,
         "x": 0,
         "y": 12
@@ -757,14 +852,14 @@
       "targets": [
         {
           "exemplar": true,
-          "expr": "flink_taskmanager_job_task_operator_defect_rate_1",
+          "expr": "flink_taskmanager_job_task_operator_defect_rate_1 * 100",
           "interval": "",
           "legendFormat": "line-1",
           "refId": "A"
         },
         {
           "exemplar": true,
-          "expr": "flink_taskmanager_job_task_operator_defect_rate_2",
+          "expr": "flink_taskmanager_job_task_operator_defect_rate_2 * 100",
           "hide": false,
           "interval": "",
           "legendFormat": "line-2",
@@ -772,7 +867,7 @@
         },
         {
           "exemplar": true,
-          "expr": "flink_taskmanager_job_task_operator_defect_rate_3",
+          "expr": "flink_taskmanager_job_task_operator_defect_rate_3 * 100",
           "hide": false,
           "interval": "",
           "legendFormat": "line-3",
@@ -780,7 +875,7 @@
         },
         {
           "exemplar": true,
-          "expr": "flink_taskmanager_job_task_operator_defect_rate_4",
+          "expr": "flink_taskmanager_job_task_operator_defect_rate_4 * 100",
           "hide": false,
           "interval": "",
           "legendFormat": "line-4",
@@ -788,7 +883,7 @@
         },
         {
           "exemplar": true,
-          "expr": "flink_taskmanager_job_task_operator_defect_rate_5",
+          "expr": "flink_taskmanager_job_task_operator_defect_rate_5 * 100",
           "hide": false,
           "instant": false,
           "interval": "",

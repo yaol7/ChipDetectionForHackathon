@@ -8,6 +8,7 @@ import io.pravega.shaded.com.google.gson.GsonBuilder;
 import org.apache.flink.api.common.serialization.SimpleStringSchema;
 import org.apache.flink.api.java.utils.ParameterTool;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
+import org.apache.flink.streaming.api.functions.sink.DiscardingSink;
 import org.apache.flink.streaming.connectors.elasticsearch.ActionRequestFailureHandler;
 import org.apache.flink.streaming.connectors.elasticsearch7.ElasticsearchSink;
 import org.apache.flink.util.ExceptionUtils;
@@ -74,7 +75,11 @@ public class ChipMetadataSinkToESTask {
                 .keyBy(obj -> obj.getProduction_line())
                 .map(new EventsCountExposingMapFunction())
                 .name(EventsCountExposingMapFunction.class.getSimpleName())
-                .map(obj -> GSON.toJson(obj))
+                .addSink(new DiscardingSink<>())
+                .name(DiscardingSink.class.getSimpleName());
+
+        env.addSource(source)
+                .filter(jx -> !Strings.isNullOrEmpty(jx))
                 .addSink(esSinkBuilder.build())
                 .name(MyElasticsearchSinkFunction.class.getName());
     }

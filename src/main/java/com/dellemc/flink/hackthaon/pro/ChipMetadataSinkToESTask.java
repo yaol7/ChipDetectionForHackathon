@@ -27,7 +27,7 @@ import java.util.Objects;
 
 public class ChipMetadataSinkToESTask {
     private static Logger log = LoggerFactory.getLogger(ChipMetadataSinkToESTask.class);
-    private static final Gson GSON = new GsonBuilder().serializeSpecialFloatingPointValues().create();
+    private static final Gson GSON = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").create();
 
     private ChipMetadataSinkToESTask() {
     }
@@ -47,7 +47,7 @@ public class ChipMetadataSinkToESTask {
                 .withDefaultScope(scope);
         FlinkPravegaReader<String> source = FlinkPravegaReader.<String>builder()
                 .withPravegaConfig(pravegaConfig)
-                .withReaderGroupName("readergroup3")
+                .withReaderGroupName("readergroup2")
                 .forStream(streamName)
                 .withDeserializationSchema(new SimpleStringSchema())
                 .build();
@@ -75,17 +75,7 @@ public class ChipMetadataSinkToESTask {
                 .keyBy(obj -> obj.getProduction_line())
                 .map(new EventsCountExposingMapFunction())
                 .name(EventsCountExposingMapFunction.class.getSimpleName())
-                .addSink(new DiscardingSink<>())
-                .name(DiscardingSink.class.getSimpleName());
-
-        FlinkPravegaReader<String> source3 = FlinkPravegaReader.<String>builder()
-                .withPravegaConfig(pravegaConfig)
-                .withReaderGroupName("readergroup8")
-                .forStream(streamName)
-                .withDeserializationSchema(new SimpleStringSchema())
-                .build();
-        env.addSource(source3)
-                .filter(jx -> !Strings.isNullOrEmpty(jx))
+                .map(chip -> GSON.toJson(chip))
                 .addSink(esSinkBuilder.build())
                 .name(MyElasticsearchSinkFunction.class.getName());
     }

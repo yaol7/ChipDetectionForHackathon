@@ -7,31 +7,40 @@
 This repository is used for the user guide of Flink Forward Asia Hackathon 2021.
 issue link: https://github.com/flink-china/flink-forward-asia-hackathon-2021/issues/21
 ## Getting Started
+```
+Clone the repository
+git clone https://eos2git.cec.lab.emc.com/yaol7/flink-prometheus-example.git
+```
 
 ### Startup Pravega
 ```
-git clone -b r0.10 https://github.com/yaol7/pravega.git
-./gradlew startStandalone
+cd ~/flink-prometheus-example/docker/pravega-docker
+./up.sh
 ```
 
 ### Startup ElasticSearch-7.16.2
 ```
-git clone https://eos2git.cec.lab.emc.com/yaol7/flink-prometheus-example.git
-cd docker/ElasticSearch
-~/docker/ElasticSearch/# sudo docker-compose up -d
+cd ~/flink-prometheus-example/docker/ElasticSearch
+docker-compose up -d
 ```
-### Startup Video Detection
+
+### Startup Video Process
 ```
-sudo docker run -itd  -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix devops-repo.isus.emc.com:8116/liuj84/python_ia:1.2 bash
-sudo docker exec -it <docker-id> bash
-cd /video_analytics
-python udf_process.py
+cd ~/flink-prometheus-example/docker/video-process
+xhost +
+docker-compose up
 ```
 
 ### Startup Flink Process in Edge/Core
 ```
 cd ~/flink-prometheus-example
 sudo docker-compose up -d
+```
+
+## Play Processed Video from Pravega
+Follow this guide [gstreamer-pravega](https://github.com/pravega/gstreamer-pravega) to install gstreamer-pravega
+```
+gst-launch-1.0 -v   pravegasrc   stream=chipdetect/video-processed controller=172.17.0.1:9090   start-mode=earliest ! decodebin ! videoconvert ! autovideosink sync=false
 ```
 
 ## Reference

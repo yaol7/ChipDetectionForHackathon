@@ -3,7 +3,7 @@ version: '3'
 services:
   video-process:
     container_name: video-process 
-    image: devops-repo.isus.emc.com:8116/liuj84/python_ia:1.2
+    image: jirnsr/python_ia:1.2
     volumes:
     - "/tmp/.X11-unix:/tmp/.X11-unix"
     environment:

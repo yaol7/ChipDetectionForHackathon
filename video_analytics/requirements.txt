@@ -1,0 +1,5 @@
+opencv-python
+openvino
+pravega
+PyQt5
+zmq

@@ -26,11 +26,11 @@ public class ModelTraingForVideoRaw {
     public void run(StreamExecutionEnvironment env, ParameterTool params, final String scope, final String streamName) throws URISyntaxException {
         PravegaConfig pravegaConfig = PravegaConfig
                 .fromParams(params)
-                .withControllerURI(new URI("tcp://localhost:9090"))
+                .withControllerURI(new URI("tcp://172.17.0.1:9090"))
                 .withDefaultScope(scope);
         FlinkPravegaReader<String> source = FlinkPravegaReader.<String>builder()
                 .withPravegaConfig(pravegaConfig)
-                .withReaderGroupName("rawdatargmodel")
+                .withReaderGroupName("rawdatamodelrg")
                 .forStream(streamName)
                 .withDeserializationSchema(new SimpleStringSchema())
                 .build();

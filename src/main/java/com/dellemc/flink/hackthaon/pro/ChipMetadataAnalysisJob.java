@@ -23,19 +23,19 @@ public class ChipMetadataAnalysisJob {
         env.enableCheckpointing(500);
 
         //chipMetadata process
-        //ChipMetadataPravegaReadTask chipMetadataPravegaReadTask = ChipMetadataPravegaReadTask.getInstance();
-        //chipMetadataPravegaReadTask.run(env, parameters, "chipdetect", "chipresults");
+        ChipMetadataPravegaReadTask chipMetadataPravegaReadTask = ChipMetadataPravegaReadTask.getInstance();
+        chipMetadataPravegaReadTask.run(env, parameters, "chipdetect", "chipresults");
 
         //sink chip metadata to ES in cloud.
-        //ChipMetadataSinkToESTask chipMetadataSinkToESTask = ChipMetadataSinkToESTask.getInstance();
-        //chipMetadataSinkToESTask.run(env, parameters, "chipdetect", "chipresults");
+        ChipMetadataSinkToESTask chipMetadataSinkToESTask = ChipMetadataSinkToESTask.getInstance();
+        chipMetadataSinkToESTask.run(env, parameters, "chipdetect", "chipresults");
 
-        ChipVideoRawSinkToCloudTask chipVideoRawSinkToCloudTask = ChipVideoRawSinkToCloudTask.getInstance();
+        /*ChipVideoRawSinkToCloudTask chipVideoRawSinkToCloudTask = ChipVideoRawSinkToCloudTask.getInstance();
         chipVideoRawSinkToCloudTask.run(env, parameters, "chipdetect", "videoraw", "videorawcore");
 
 
         ModelTraingForVideoRaw modelTraingForVideoRaw = ModelTraingForVideoRaw.getInstance();
-        modelTraingForVideoRaw.run(env, parameters, "chipdetect", "videoraw");
+        modelTraingForVideoRaw.run(env, parameters, "chipdetect", "videoraw");*/
 
         env.execute(ChipMetadataAnalysisJob.class.getSimpleName());
         log.info("all the tasks is summit!");

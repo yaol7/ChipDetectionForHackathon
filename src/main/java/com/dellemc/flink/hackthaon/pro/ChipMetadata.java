@@ -20,13 +20,12 @@ public class ChipMetadata {
     private String factory;
     private String production_line;
     private List<Float> location;
+    private String frame;
 
     public ChipMetadata() {
     }
 
-    public ChipMetadata(int encoding_level, String version, String img_handle, String stream, int width,
-                        int height, String encoding_type, JsonArray defects, int defectsLen, int frame_number,
-                        Date timestamp, String factory, String production_line, List<Float> location) {
+    public ChipMetadata(int encoding_level, String version, String img_handle, String stream, int width, int height, String encoding_type, JsonArray defects, int defectsLen, int frame_number, Date timestamp, String factory, String production_line, List<Float> location, String frame) {
         this.encoding_level = encoding_level;
         this.version = version;
         this.img_handle = img_handle;
@@ -41,6 +40,7 @@ public class ChipMetadata {
         this.factory = factory;
         this.production_line = production_line;
         this.location = location;
+        this.frame = frame;
     }
 
     public int getEncoding_level() {
@@ -155,6 +155,14 @@ public class ChipMetadata {
         this.location = location;
     }
 
+    public String getFrame() {
+        return frame;
+    }
+
+    public void setFrame(String frame) {
+        this.frame = frame;
+    }
+
     @Override
     public String toString() {
         return "ChipMetadata{" +
@@ -172,6 +180,7 @@ public class ChipMetadata {
                 ", factory='" + factory + '\'' +
                 ", production_line='" + production_line + '\'' +
                 ", location=" + location +
+                ", frame='" + frame + '\'' +
                 '}';
     }
 }

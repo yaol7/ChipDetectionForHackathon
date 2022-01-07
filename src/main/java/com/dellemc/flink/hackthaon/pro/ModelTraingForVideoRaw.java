@@ -30,7 +30,7 @@ public class ModelTraingForVideoRaw {
                 .withDefaultScope(scope);
         FlinkPravegaReader<String> source = FlinkPravegaReader.<String>builder()
                 .withPravegaConfig(pravegaConfig)
-                .withReaderGroupName("rawdatargnew")
+                .withReaderGroupName("rawdatargmodel")
                 .forStream(streamName)
                 .withDeserializationSchema(new SimpleStringSchema())
                 .build();

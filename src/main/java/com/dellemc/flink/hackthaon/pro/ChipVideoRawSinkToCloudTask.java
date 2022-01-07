@@ -31,7 +31,7 @@ public class ChipVideoRawSinkToCloudTask {
                 .withDefaultScope(scope);
         FlinkPravegaReader<String> source = FlinkPravegaReader.<String>builder()
                 .withPravegaConfig(pravegaConfig)
-                .withReaderGroupName("rawdatarg")
+                .withReaderGroupName("rawdatacloudrg")
                 .forStream(streamName)
                 .withDeserializationSchema(new SimpleStringSchema())
                 .build();

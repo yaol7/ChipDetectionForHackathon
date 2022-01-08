@@ -8,7 +8,6 @@ services:
     ports:
     - "8081:8081"
     - "9249:9249"
-    #network_mode: "host"
     volumes:
     - state:/state
     command: standalone-job --job-classname com.dellemc.flink.hackthaon.pro.ChipMetadataAnalysisJob --job-id 00000000000000000000000000000000
@@ -23,7 +22,6 @@ services:
     container_name: taskmanager1
     ports:
     - "9250:9249"
-    #network_mode: "host"
     volumes:
     - state:/state
     command: taskmanager
@@ -38,7 +36,6 @@ services:
     container_name: taskmanager2
     ports:
     - "9251:9249"
-    #network_mode: "host"
     volumes:
     - state:/state
     command: taskmanager

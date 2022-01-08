@@ -31,7 +31,7 @@ xhost +
 docker-compose up
 ```
 
-### Startup Flink Process in Edge/Core
+### Startup Flink Process
 ```
 cd ~/flink-prometheus-example
 sudo docker-compose up -d

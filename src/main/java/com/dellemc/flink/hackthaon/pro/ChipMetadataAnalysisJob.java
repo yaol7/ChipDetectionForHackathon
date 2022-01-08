@@ -30,13 +30,6 @@ public class ChipMetadataAnalysisJob {
         ChipMetadataSinkToESTask chipMetadataSinkToESTask = ChipMetadataSinkToESTask.getInstance();
         chipMetadataSinkToESTask.run(env, parameters, "chipdetect", "chipresults");
 
-        /*ChipVideoRawSinkToCloudTask chipVideoRawSinkToCloudTask = ChipVideoRawSinkToCloudTask.getInstance();
-        chipVideoRawSinkToCloudTask.run(env, parameters, "chipdetect", "videoraw", "videorawcore");
-
-
-        ModelTraingForVideoRaw modelTraingForVideoRaw = ModelTraingForVideoRaw.getInstance();
-        modelTraingForVideoRaw.run(env, parameters, "chipdetect", "videoraw");*/
-
         env.execute(ChipMetadataAnalysisJob.class.getSimpleName());
         log.info("all the tasks is summit!");
     }
